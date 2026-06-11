@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('boardimgs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
             $table->foreignId('board_id')->constrained();
             $table->longtext('image_name');
             $table->dateTime('created_at');
