@@ -15,4 +15,8 @@
     <button type="submit">検索</button>
 </form>
 
+@foreach ($boards as $board)
+    <h3>{{ $board->titlename }}</h3>
+@endforeach
+
 @endsection

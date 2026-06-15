@@ -16,8 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $boards = Board::orderBy("id")->get();
-        return view("user.index", compact("users"));
+        $boards = Board::all();
+        return view("user.index", compact("boards"));
     }
 
     /**
