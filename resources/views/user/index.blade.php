@@ -6,9 +6,22 @@
 
 <h1>掲示板一覧</h1>
 
-<form action="">
-    <button type="submit">ログイン</button>
-</form>
+<header id="header">
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <nav class="nav">
+        <ul>
+            <li>
+                <form action="">
+                    <button type="submit" onclick="">ログイン</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
 
 <form action="">
     <input type="text">
