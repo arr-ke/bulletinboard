@@ -5,6 +5,51 @@ body {
     background-color: #FFCC33;
 }
 
+h1 {
+    /* 中央揃え */
+    text-align: center;
+    font-size: 40px;
+}
+
+h3 {
+    /* 中央揃え */
+    text-align: center;
+    font-size: 20px;
+}
+
+/* form1のCSS */
+.form1 {
+    /* 中央揃え */
+    text-align: center;
+}
+
+/* inputのtext1のCSS */
+.text1 {
+    /* フォントサイズ */
+    font-size: 20px;
+}
+
+/* buttonのsubmit1のCSS */
+.submit1 {
+    /* フォントサイズ */
+    font-size: 20px;
+}
+
+/* box1のCSS */
+.box1 {
+    /* 中央揃え */
+    text-align: center;
+    /* 縦幅サイズ */
+    height: 300px;
+    /* 横幅サイズ */
+    width: 500px;
+    /* 外側左サイズ */
+    margin-left: 420px;
+    /* 背景色 */
+    background-color: #fff;
+    /* スクロール */
+    overflow: scroll;
+}
 
 /* ハンバーガーアイコンの外側デザイン */
 #header .hamburger {
@@ -79,6 +124,7 @@ body {
     overflow: auto;
     /* 要素同士の余白サイズ調整 */
     gap: 16px;
+    /* 中央揃え */
     text-align: center;
 }
 

@@ -1,4 +1,4 @@
-<!-- 未ログイン掲示板一覧画面 -->
+<!-- 未ログイン掲示板閲覧画面 -->
 
 @extends('layout.userapp')
 
@@ -36,28 +36,12 @@
 </header>
 
 
-<br>
-<br>
-<br>
+<h3>{{ $board->titlename }}</h3>
 
-<form action="" class="form1" method="post">
-    <input type="text" name="searchname" class="text1">
-    <button type="submit" class="submit1">検索</button>
-</form>
 
 <br>
 <br>
 <br>
 
-<div class="box1">
-    @foreach ($boards as $board)
-        <h3>
-            <a href="{{ route('users.show', $board->id) }}">
-                {{ $board->titlename }}
-            </a>
-        </h3>
-        <br>
-    @endforeach
-</div>
 
 @endsection

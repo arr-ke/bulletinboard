@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Board;
+use App\Models\Boardimgs;
 use App\Models\boardread;
+use App\Models\boardreadimgs;
 
 
 class UserController extends Controller
@@ -41,7 +43,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $board = Board::findOrFail($id);
+        $boardimgs = Boardimgs::findorFail($id);
+        return view("user.show", compact("board"));
     }
 
     /**
