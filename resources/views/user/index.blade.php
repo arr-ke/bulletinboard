@@ -27,7 +27,8 @@
             </li>
 
             <li>
-                <form action="">
+                <!-- ↓未ログイン掲示板一覧画面 -->
+                <form action="{{ route('users.index') }}" method="get">
                     <button type="submit">掲示板一覧</button>
                 </form>
             </li>
@@ -52,6 +53,7 @@
 <div class="box1">
     @foreach ($boards as $board)
         <h3>
+            <!-- ↓未ログイン掲示板閲覧画面 -->
             <a href="{{ route('users.show', $board->id) }}">
                 {{ $board->titlename }}
             </a>

@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Board;
-use App\Models\Boardimgs;
+use App\Models\Boardimg;
 use App\Models\boardread;
-use App\Models\boardreadimgs;
+use App\Models\boardreadimg;
 
 
 class UserController extends Controller
@@ -43,9 +43,13 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
+        $users = User::all();
         $board = Board::findOrFail($id);
-        $boardimgs = Boardimgs::findorFail($id);
-        return view("user.show", compact("board"));
+        $boardimgs = Boardimg::where("board_id", $id)->get();
+        $boardreads = Boardread::where("board_id", $id)->get();
+        $boardreadimgs = Boardreadimg::where("board_id", $id)->get();
+        
+        return view("user.show", compact("users", "board", "boardimgs", "boardreads", "boardreadimgs"));
     }
 
     /**
