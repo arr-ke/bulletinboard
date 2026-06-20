@@ -1,10 +1,10 @@
-<!-- 未ログイン掲示板一覧画面 -->
+<!-- 未ログインエラー画面 -->
 
 @extends('layout.userapp')
 
 @section('content')
 
-<h1>掲示板一覧</h1>
+<h1>エラー</h1>
 
 <header id="header">
     <div class="hamburger">
@@ -40,30 +40,18 @@
     </nav>
 </header>
 
-
-<br>
-<br>
 <br>
 
-<form action="" class="form1" method="post">
-    <input type="text" name="searchname" class="text1">
-    <button type="submit" class="submit2">検索</button>
-</form>
-
-<br>
-<br>
-<br>
-
-<div class="box1">
-    @foreach ($boards as $board)
-        <h3>
-            <!-- ↓未ログイン掲示板閲覧画面 -->
-            <a href="{{ route('users.show', $board->id) }}">
-                {{ $board->titlename }}
-            </a>
-        </h3>
-        <br>
-    @endforeach
-</div>
+<!-- ↓リンクエラーなのかを真偽判定しています。 -->
+@if (session('value') == '1')
+    <h3>リンクエラーです。</h3>
+    <h3>000-0000-0000</h3>
+    <h3>この電話にご連絡ください。</h3>
+<!-- ↓原因不明エラーなのかを真偽判定しています。 -->
+@elseif (session('value') == '2')
+    <h3>原因不明エラーです。</h3>
+    <h3>000-0000-0000</h3>
+    <h3>この電話にご連絡ください。</h3>
+@endif
 
 @endsection

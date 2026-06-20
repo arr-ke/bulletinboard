@@ -32,7 +32,17 @@ h3 {
 /* buttonのsubmit1のCSS */
 .submit1 {
     /* フォントサイズ */
+    font-size: 25px;
+    /* 背景色 */
+    background-color: #CC99FF;
+}
+
+/* buttonのsubmit1のCSS */
+.submit2 {
+    /* フォントサイズ */
     font-size: 20px;
+    /* 背景色 */
+    background-color: #CC99FF;
 }
 
 /* box1のCSS */
@@ -45,6 +55,22 @@ h3 {
     width: 500px;
     /* 外側左サイズ */
     margin-left: 420px;
+    /* 背景色 */
+    background-color: #fff;
+    /* スクロール */
+    overflow: scroll;
+}
+
+/* box2のCSS */
+.box2 {
+    /* 中央揃え */
+    text-align: center;
+    /* 縦幅サイズ */
+    height: 400px;
+    /* 横幅サイズ */
+    width: 800px;
+    /* 外側左サイズ */
+    margin-left: 275px;
     /* 背景色 */
     background-color: #fff;
     /* スクロール */

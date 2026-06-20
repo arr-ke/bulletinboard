@@ -16,27 +16,33 @@
         <ul>
             <li>
                 <form action="">
-                    <button type="submit">ログイン</button>
+                    <button type="submit" class="submit1">ログイン</button>
                 </form>
             </li>
 
+            <br>
+
             <li>
                 <form action="">
-                    <button type="submit">ユーザー登録</button>
+                    <button type="submit" class="submit1">ユーザー登録</button>
                 </form>
             </li>
+
+            <br>
 
             <li>
                 <!-- ↓未ログイン掲示板一覧画面 -->
                 <form action="{{ route('users.index') }}" method="get">
-                    <button type="submit">掲示板一覧</button>
+                    <button type="submit" class="submit1">掲示板一覧</button>
                 </form>
             </li>
         </ul>
     </nav>
 </header>
 
+<!-- ↓userテーブルを呼び出しています。 -->
 @foreach ($users as $user)
+    <!-- ↓usersテーブルのidとboardsテーブルのuser_idが一致しているのかを真偽判定しています。 -->
     @if ($user->id === $board->user_id)
         <h3>{{ $user->name }}さん</h3>
     @endif
@@ -44,8 +50,9 @@
 
 <h3>{{ $board->titlename }}</h3>
 
+<!-- ↓boardimgsテーブルを呼び出しています。 -->
 @foreach ($boardimgs as $boardimg)
-    {{ $boardimg->image_name }}
+    <h3>{{ $boardimg->image_name }}</h3>
 @endforeach
 
 
@@ -54,14 +61,17 @@
 <br>
 <br>
 
-<div class="box1">
+<div class="box2">
+    <!-- ↓boardreadsテーブルを呼び出しています。 -->
     @foreach ($boardreads as $boardread)
         <h3>{{ $boardread->user_name }}さん</h3>
             
         <h3>{{ $boardread->comment }}</h3>
 
+        <!-- ↓boardreadimgsテーブルを呼び出しています。 -->
         @foreach ($boardreadimgs as $boardreadimg)
-            @if ($boardreadimg->board_id === $boardread->board_id)
+            <!-- ↓boardreadimgsのboardread_idとboardreadのidが一致しているのかを真偽判定しています。 -->
+            @if ($boardreadimg->boardread_id == $boardread->id)
 
                 <h3>{{ $boardreadimg->image_name }}</h3>
             @endif

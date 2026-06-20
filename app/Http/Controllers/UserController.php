@@ -18,8 +18,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        $boards = Board::all();
-        return view("user.index", compact("boards"));
+        // ↓設定ファイルがない、DBが空などが原因のリンクエラーが起きていないのかを真偽判定しています。
+        if (!view()->exists('user.index')) {
+            // ↓エラー画面
+            return redirect()->route('user.error')->with('value', "1");
+        }
+
+        try {
+            $boards = Board::all();
+            return view("user.index", compact("boards"));
+        } catch (Exception $e) {
+            return redirect()->route('user.error')->with('value', "3");
+        }
+        
     }
 
     /**
@@ -74,5 +85,14 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function login() {
+
+    }
+
+    public function error(UserRequest $request) {
+        // ↓エラー画面
+        return view("user.error"); 
     }
 }

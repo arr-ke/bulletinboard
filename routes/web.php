@@ -19,3 +19,7 @@ Route::middleware('auth')->group(function () {
     // ↓掲示板のパス
     Route::resource("Boardreads", BoardreadController::class);
 });
+
+Route::post("userslogin", [UserController::class, 'login'])->name('users.login');
+
+Route::get("userserror", [UserController::class, 'error'])->name('users.error');
