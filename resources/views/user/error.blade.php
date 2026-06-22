@@ -41,17 +41,20 @@
 </header>
 
 <br>
+<br>
+<br>
+<br>
 
 <!-- ↓リンクエラーなのかを真偽判定しています。 -->
 @if (session('value') == '1')
-    <h3>リンクエラーです。</h3>
-    <h3>000-0000-0000</h3>
-    <h3>この電話にご連絡ください。</h3>
+    <h3 class="fontsize1">リンクエラーです。</h3>
+    <h3 class="fontsize1">000-0000-0000</h3>
+    <h3 class="fontsize1">この電話にご連絡ください。</h3>
 <!-- ↓原因不明エラーなのかを真偽判定しています。 -->
 @elseif (session('value') == '2')
-    <h3>原因不明エラーです。</h3>
-    <h3>000-0000-0000</h3>
-    <h3>この電話にご連絡ください。</h3>
+    <h3 class="fontsize1">原因不明エラーです。</h3>
+    <h3 class="fontsize1">000-0000-0000</h3>
+    <h3 class="fontsize1">この電話にご連絡ください。</h3>
 @endif
 
 @endsection

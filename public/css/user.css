@@ -14,7 +14,11 @@ h1 {
 h3 {
     /* 中央揃え */
     text-align: center;
-    font-size: 20px;
+    font-size: 25px;
+}
+
+.fontsize1 {
+    font-size: 30px;
 }
 
 /* form1のCSS */
