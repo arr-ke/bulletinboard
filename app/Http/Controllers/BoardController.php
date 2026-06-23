@@ -12,7 +12,8 @@ class BoardController extends Controller
      */
     public function index()
     {
-        //
+        // ↓掲示板一覧画面
+        return view("board.index");
     }
 
     /**

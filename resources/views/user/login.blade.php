@@ -4,7 +4,14 @@
 
 @section('content')
 
-<h1>掲示板一覧</h1>
+<h1>ログイン</h1>
+
+<!-- ↓リンクエラーなのかを真偽判定しています。 -->
+@if (session('loginmessage')) {
+    <div class="msg" style="display:none;">
+        {{ session('loginmessage') }}
+    </div>
+}
 
 <header id="header">
     <div class="hamburger">
@@ -46,26 +53,16 @@
 <br>
 <br>
 
-<form action="" class="form1" method="post">
-    @csrf
-    <input type="text" name="searchname" class="text1">
-    <button type="submit" class="submit2">検索</button>
+
+<form action="{{ route('users.login') }}" class="form1" method="post">
+    <h3>ID <input type="text" name="id" class="text2"></h3>
+    <h3>PW <input type="text" name="pw" class="text3"></h3>
+
+    <br>
+    <br>
+
+    <button type="submit" class="submit3">ログイン</button>
 </form>
 
-<br>
-<br>
-<br>
-
-<div class="box1">
-    @foreach ($boards as $board)
-        <h3>
-            <!-- ↓未ログイン掲示板閲覧画面 -->
-            <a href="{{ route('users.show', $board->id) }}">
-                {{ $board->titlename }}
-            </a>
-        </h3>
-        <br>
-    @endforeach
-</div>
 
 @endsection

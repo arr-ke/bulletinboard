@@ -4,7 +4,7 @@
 
 @section('content')
 
-<h1>掲示板一覧</h1>
+<h1>掲示板閲覧</h1>
 
 <header id="header">
     <div class="hamburger">
@@ -15,7 +15,8 @@
     <nav class="nav">
         <ul>
             <li>
-                <form action="">
+                <form action="{{ route('users.login') }}" method="post">
+                    @csrf
                     <button type="submit" class="submit1">ログイン</button>
                 </form>
             </li>

@@ -33,6 +33,21 @@ h3 {
     font-size: 20px;
 }
 
+/* inputのtext2のCSS */
+.text2 {
+    /* フォントサイズ */
+    font-size: 20px;
+    /* 外側左サイズ */
+    margin-left: 12px;
+}
+
+/* inputのtext3のCSS */
+.text3 {
+    /* フォントサイズ */
+    font-size: 20px;
+    
+}
+
 /* buttonのsubmit1のCSS */
 .submit1 {
     /* フォントサイズ */
@@ -41,10 +56,18 @@ h3 {
     background-color: #CC99FF;
 }
 
-/* buttonのsubmit1のCSS */
+/* buttonのsubmit2のCSS */
 .submit2 {
     /* フォントサイズ */
     font-size: 20px;
+    /* 背景色 */
+    background-color: #CC99FF;
+}
+
+/* buttonのsubmit3のCSS */
+.submit3 {
+    /* フォントサイズ */
+    font-size: 30px;
     /* 背景色 */
     background-color: #CC99FF;
 }

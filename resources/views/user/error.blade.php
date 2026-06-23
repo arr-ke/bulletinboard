@@ -15,7 +15,8 @@
     <nav class="nav">
         <ul>
             <li>
-                <form action="">
+                <form action="{{ route('users.login') }}" method="post">
+                    @csrf
                     <button type="submit" class="submit1">ログイン</button>
                 </form>
             </li>
