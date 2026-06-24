@@ -24,7 +24,7 @@
             <br>
 
             <li>
-                <form action="">
+                <form action="{{ route('users.create') }}" method="get">
                     <button type="submit" class="submit1">ユーザー登録</button>
                 </form>
             </li>

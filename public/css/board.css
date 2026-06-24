@@ -1,4 +1,4 @@
-/* userのcss */
+/* boardのcss */
 
 body {
     /* 背景色 */
@@ -17,9 +17,7 @@ h3 {
     font-size: 25px;
 }
 
-/* fontsize1のCSS */
 .fontsize1 {
-    /* フォントサイズ */
     font-size: 30px;
 }
 
@@ -48,34 +46,6 @@ h3 {
     /* フォントサイズ */
     font-size: 20px;
     
-}
-
-/* inputのtext2のCSS */
-.text4 {
-    /* フォントサイズ */
-    font-size: 20px;
-    /* 外側左サイズ */
-    margin-left: 61px;
-    /* 横幅サイズ */
-    width: 330px;
-}
-
-/* inputのtext3のCSS */
-.text5 {
-    /* フォントサイズ */
-    font-size: 20px;
-    /* 外側左サイズ */
-    margin-left: 50px;
-    /* 横幅サイズ */
-    width: 330px;
-}
-
-/* inputのtext3のCSS */
-.text6 {
-    /* フォントサイズ */
-    font-size: 20px;
-    /* 横幅サイズ */
-    width: 330px;
 }
 
 /* buttonのsubmit1のCSS */

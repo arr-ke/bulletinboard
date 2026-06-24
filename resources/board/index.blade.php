@@ -1,10 +1,24 @@
-<!-- 未ログイン掲示板一覧画面 -->
+<!-- 掲示板一覧画面 -->
 
-@extends('layout.userapp')
+@extends('layout.boardapp')
 
 @section('content')
 
 <h1>掲示板一覧</h1>
+
+<!-- ↓ログインメッセージがあるのかを真偽判定しています。 -->
+@if (session('loginmessage')) 
+    <div class="msg" style="display:none;">
+        {{ session('loginmessage') }}
+    </div>
+@endif
+
+<!-- ↓エラーメッセージがあるのかを真偽判定しています。 -->
+@if (session('errormessage')) 
+    <div class="msg" style="display:none;">
+        {{ session('errormessage') }}
+    </div>
+@endif
 
 <header id="header">
     <div class="hamburger">
@@ -24,7 +38,7 @@
             <br>
 
             <li>
-                <form action="{{ route('users.create') }}" method="get">
+                <form action="{{ route('users.create') }}" method="post">
                     <button type="submit" class="submit1">ユーザー登録</button>
                 </form>
             </li>
@@ -67,5 +81,9 @@
         <br>
     @endforeach
 </div>
+
+<h3>
+    <a href="">掲示板作成</a>
+</h3>
 
 @endsection
