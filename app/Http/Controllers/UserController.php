@@ -12,6 +12,7 @@ use App\Models\boardread;
 use App\Models\boardreadimg;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 use Exception;
 
 class UserController extends Controller
@@ -69,7 +70,7 @@ class UserController extends Controller
         // ↓pwとpwasrの値が一致しているのかを真偽判定しています。
         if ($request->input("pw") === $request->input("pwasr")) {
             // ↓usersテーブルに同じidがあるのかを真偽判定しています。
-            if (User::where('name', $request->input('id'))->exists) {
+            if (User::where('name', $request->input('id'))->exists()) {
                 // ↓ユーザー登録画面
                 return redirect()->route("user.create")->with('createerrormessage', "ユーザーIDがすでに使われています");
             }
@@ -78,7 +79,7 @@ class UserController extends Controller
             $name = $request->input("id");
             $pw = $request->input("pw");
 
-            $user = User::new();
+            $user = new User();
             $user->name = $name;
             $user->pw = Hash::make($pw);
             $user->created_at = Carbon::now('Asia/Tokyo');
@@ -87,7 +88,7 @@ class UserController extends Controller
             $user->save();
 
             // ↓ログイン画面
-            return redirect()->route("user.login");
+            return view("user.login");
 
         } else {
             // ↓ユーザー登録画面
@@ -154,10 +155,10 @@ class UserController extends Controller
             return redirect()->route("user.error")->with('value', "1");
         }
 
-
         try {
             // ↓IDとPWに値が入力されているのかを真偽判定しています。
             if ($request->filled('id') && $request->filled('pw')) {
+                
                 // ↓ログイン処理
                 $login = [
                     'name' => $request->input('id'),

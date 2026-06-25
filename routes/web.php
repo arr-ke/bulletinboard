@@ -22,4 +22,4 @@ Route::middleware('auth')->group(function () {
 
 Route::post("userslogin", [UserController::class, 'login'])->name('users.login');
 
-Route::get("userserror", [UserController::class, 'error'])->name('users.error');
+Route::get("userserror", [UserController::class, 'error'])->name('user.error');
