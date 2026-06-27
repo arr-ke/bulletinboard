@@ -20,6 +20,10 @@ Route::middleware('auth')->group(function () {
     Route::resource("Boardreads", BoardreadController::class);
 });
 
-Route::post("userslogin", [UserController::class, 'login'])->name('users.login');
+// ↓ログインインプットのパス
+Route::get("userslogininput", [UserController::class, 'logininput'])->name('users.logininput');
+
+// ↓ログインアウトプットのパス
+Route::post("usersloginoutput", [UserController::class, 'loginoutput'])->name('users.loginoutput');
 
 Route::get("userserror", [UserController::class, 'error'])->name('user.error');

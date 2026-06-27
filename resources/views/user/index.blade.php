@@ -15,7 +15,7 @@
     <nav class="nav">
         <ul>
             <li>
-                <form action="{{ route('users.login') }}" method="post">
+                <form action="{{ route('users.logininput') }}" method="get">
                     @csrf
                     <button type="submit" class="submit1">ログイン</button>
                 </form>

@@ -81,14 +81,14 @@ class UserController extends Controller
 
             $user = new User();
             $user->name = $name;
-            $user->pw = Hash::make($pw);
+            $user->password = Hash::make($pw);
             $user->created_at = Carbon::now('Asia/Tokyo');
             $user->updated_at = Carbon::now('Asia/Tokyo');
 
             $user->save();
 
             // ↓ログイン画面
-            return view("user.login");
+            return view("user.logininput");
 
         } else {
             // ↓ユーザー登録画面
@@ -148,37 +148,47 @@ class UserController extends Controller
         //
     }
 
-    public function login(UserRequest $request) {
+    public function logininput() {
+        
         // ↓リンクエラーが起きていないのかを真偽判定しています。
-        if (!view()->exists('user.login')) {
+        if (!view()->exists('user.logininput')) {
             // ↓エラー画面
             return redirect()->route("user.error")->with('value', "1");
         }
 
         try {
-            // ↓IDとPWに値が入力されているのかを真偽判定しています。
-            if ($request->filled('id') && $request->filled('pw')) {
-                
-                // ↓ログイン処理
-                $login = [
-                    'name' => $request->input('id'),
-                    'pw' => $request->input('pw'),
-                ];
-
-                // ↓ログインしているのかを真偽判定しています。
-                if (Auth::attempt($login)) {
-                    // ↓掲示板一覧画面
-                    return redirect()->route("board.index")->with('loginmessage', "ログインに成功しました。");
-                }
-                // ↓ログイン画面
-                return redirect()->route("user.login")->with('loginmessage', "ログインに失敗しました。");
-            } else {
-                // ↓ログイン画面
-                return view("user.login");
-            }
+            
+            // ↓ログイン画面
+            return view("user.logininput");
         } catch (Exception $e) {
             // ↓エラー画面
             return redirect()->route("user.error")->with('value', "2");
+        }
+    }
+
+    public function loginoutput(UserRequest $request) {
+        
+        // ↓IDとPWに値が入力されているのかを真偽判定しています。
+        if ($request->filled('id') && $request->filled('pw')) {
+            
+            // ↓ログイン処理
+            $login = [
+                'name' => $request->input('id'),
+                'password' => $request->input('pw'),
+            ];
+
+            
+
+            // ↓ログインしているのかを真偽判定しています。
+            if (Auth::attempt($login)) {
+                // ↓掲示板一覧画面
+                return redirect()->route("board.index")->with('loginmessage', "ログインに成功しました");
+            }
+            // ↓ログイン画面
+            return back()->with('loginmessage', "ログインに失敗しました")->withInput();
+        } else {
+            // ↓ログイン画面
+            return back()->with('loginmessage', "IDとPWを入力してください")->withInput();
         }
     }
 

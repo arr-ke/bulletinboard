@@ -1,10 +1,17 @@
-<!-- 未ログインエラー画面 -->
+<!-- 未ログイン掲示板一覧画面 -->
 
 @extends('layout.userapp')
 
 @section('content')
 
-<h1>エラー</h1>
+<h1>ログイン</h1>
+
+<!-- ↓ログインメッセージがあるのかを真偽判定しています。 -->
+@if (session('loginmessage')) 
+    <div class="msg" style="display:none;">
+        {{ session('loginmessage') }}
+    </div>
+@endif
 
 <header id="header">
     <div class="hamburger">
@@ -41,21 +48,22 @@
     </nav>
 </header>
 
-<br>
+
 <br>
 <br>
 <br>
 
-<!-- ↓リンクエラーなのかを真偽判定しています。 -->
-@if (session('value') == '1')
-    <h3 class="fontsize1">リンクエラーです。</h3>
-    <h3 class="fontsize1">000-0000-0000</h3>
-    <h3 class="fontsize1">この電話にご連絡ください。</h3>
-<!-- ↓原因不明エラーなのかを真偽判定しています。 -->
-@elseif (session('value') == '2')
-    <h3 class="fontsize1">原因不明エラーです。</h3>
-    <h3 class="fontsize1">000-0000-0000</h3>
-    <h3 class="fontsize1">この電話にご連絡ください。</h3>
-@endif
+
+<form action="{{ route('users.loginoutput') }}" class="form1" method="post">
+    @csrf
+    <h3>ID <input type="text" name="id" class="text2" required></h3>
+    <h3>PW <input type="password" name="pw" class="text3" required></h3>
+
+    <br>
+    <br>
+
+    <button type="submit" class="submit3">ログイン</button>
+</form>
+
 
 @endsection

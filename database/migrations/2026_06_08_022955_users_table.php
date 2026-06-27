@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name', 10);
-            $table->longtext('pw');
+            $table->longtext('password');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
         });
