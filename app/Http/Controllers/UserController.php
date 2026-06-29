@@ -81,7 +81,7 @@ class UserController extends Controller
 
             $user = new User();
             $user->name = $name;
-            $user->password = Hash::make($pw);
+            $user->password = $pw;
             $user->created_at = Carbon::now('Asia/Tokyo');
             $user->updated_at = Carbon::now('Asia/Tokyo');
 
@@ -167,7 +167,7 @@ class UserController extends Controller
     }
 
     public function loginoutput(UserRequest $request) {
-        
+    
         // ↓IDとPWに値が入力されているのかを真偽判定しています。
         if ($request->filled('id') && $request->filled('pw')) {
             
@@ -176,19 +176,18 @@ class UserController extends Controller
                 'name' => $request->input('id'),
                 'password' => $request->input('pw'),
             ];
-
             
-
             // ↓ログインしているのかを真偽判定しています。
             if (Auth::attempt($login)) {
+
                 // ↓掲示板一覧画面
                 return redirect()->route("board.index")->with('loginmessage', "ログインに成功しました");
             }
             // ↓ログイン画面
-            return back()->with('loginmessage', "ログインに失敗しました")->withInput();
+            return redirect()->route("users.logininput")->with('loginmessage', "ログインに失敗しました");
         } else {
             // ↓ログイン画面
-            return back()->with('loginmessage', "IDとPWを入力してください")->withInput();
+            return redirect()->route("users.logininput")->with('loginmessage', "IDとPWを入力してください");
         }
     }
 

@@ -17,7 +17,7 @@ class BoardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(BoardRequest $request)
     {
         // ↓掲示板一覧画面
         return view("board.index");

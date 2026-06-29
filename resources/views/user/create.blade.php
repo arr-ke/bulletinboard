@@ -22,6 +22,7 @@
     <nav class="nav">
         <ul>
             <li>
+                <!-- ↓ログイン画面 -->
                 <form action="{{ route('users.logininput') }}" method="get">
                     @csrf
                     <button type="submit" class="submit1">戻る</button>
@@ -31,6 +32,7 @@
             <br>
 
             <li>
+                <!-- ↓ユーザー登録画面 -->
                 <form action="{{ route('users.create') }}" method="get">
                     <button type="submit" class="submit1">ユーザー登録</button>
                 </form>
