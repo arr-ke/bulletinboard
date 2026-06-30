@@ -11,6 +11,8 @@ use App\Models\Boardimg;
 use App\Models\boardread;
 use App\Models\boardreadimg;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Exception;
 
 class BoardController extends Controller
 {
@@ -19,8 +21,22 @@ class BoardController extends Controller
      */
     public function index(BoardRequest $request)
     {
-        // ↓掲示板一覧画面
-        return view("board.index");
+        // ↓リンクエラーが起きていないのかを真偽判定しています。
+        if (!view()->exists('board.index')) {
+            // ↓エラー画面
+            return redirect()->route("boards.error")->with('value', "1");
+        }
+
+        try {
+            $boards = Board::all();
+            // ↓掲示板一覧画面
+            return view("board.index", compact("boards"));
+        // ↓原因不明エラー起きた時
+        } catch (Exception $e) {
+            // ↓エラー画面
+            return redirect()->route("boards.error")->with('value', "2");
+        }
+
     }
 
     /**
@@ -69,5 +85,36 @@ class BoardController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function error(BoardRequest $request) {
+        // ↓エラー画面
+        return view("board.error"); 
+    }
+
+    public function logout(BoardRequest $request) {
+
+        try {
+            // ログアウト処理
+
+            // ↓今のセッションをログアウト
+            Auth::logout();
+
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            if (!Auth::check() || !view()->exists('board.logout')) {
+                // ↓ログイン画面
+                return redirect()->route("users.index")->with('loginmessage', "ログアウトしました");
+            } else {
+                // ↓エラー画面
+                return redirect()->route("boards.error")->with('value', "1");
+            }
+            
+        } catch (Exception $e) {
+            // ↓エラー画面
+            return redirect()->route("boards.error")->with('value', "2");
+        }
+        
     }
 }

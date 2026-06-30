@@ -25,7 +25,7 @@
                 <!-- ↓ログイン画面 -->
                 <form action="{{ route('users.logininput') }}" method="get">
                     @csrf
-                    <button type="submit" class="submit1">戻る</button>
+                    <button type="submit" class="submit1">ログイン</button>
                 </form>
             </li>
 
@@ -55,7 +55,7 @@
 <br>
 <br>
 
-
+<!-- ↓ログイン処理 -->
 <form action="{{ route('users.loginoutput') }}" class="form1" method="post">
     @csrf
     <h3>ID <input type="text" name="id" class="text2" required></h3>
