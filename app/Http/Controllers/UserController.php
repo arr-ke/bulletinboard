@@ -72,7 +72,9 @@ class UserController extends Controller
             // ↓usersテーブルに同じidがあるのかを真偽判定しています。
             if (User::where('name', $request->input('id'))->exists()) {
                 // ↓ユーザー登録画面
-                return redirect()->route("users.create")->with('createerrormessage', "ユーザーIDがすでに使われています");
+                return redirect()->route("users.create")
+                ->with('createerrormessage', "ユーザーIDがすでに使われています")
+                ->withInput();
             }
 
             // ユーザー登録処理
@@ -92,7 +94,9 @@ class UserController extends Controller
 
         } else {
             // ↓ユーザー登録画面
-            return redirect()->route("users.create")->with('createerrormessage', "ユーザー登録に失敗しました");
+            return redirect()->route("users.create")
+            ->with('createerrormessage', "ユーザー登録に失敗しました")
+            ->withInput();
         }
     }
 

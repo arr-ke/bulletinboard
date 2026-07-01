@@ -8,14 +8,14 @@
 
 <!-- ↓ログインメッセージがあるのかを真偽判定しています。 -->
 @if (session('loginmessage')) 
-    <div class="msg" style="display:none;">
+    <div id="msg" style="display:none;">
         {{ session('loginmessage') }}
     </div>
 @endif
 
 <!-- ↓エラーメッセージがあるのかを真偽判定しています。 -->
 @if (session('errormessage')) 
-    <div class="msg" style="display:none;">
+    <div id="msg" style="display:none;">
         {{ session('errormessage') }}
     </div>
 @endif
@@ -29,7 +29,8 @@
     <nav class="nav">
         <ul>
             <li>
-                <form action="{{ route('boards.logout') }}" method="get">
+                <!-- ↓ログアウト処理 -->
+                <form action="{{ route('boards.logout') }}" method="get" onsubmit="return confirm('ログアウトしますか')">
                     <button type="submit" class="submit1">ログアウト</button>
                 </form>
             </li>
@@ -54,7 +55,6 @@
     </nav>
 </header>
 
-
 <br>
 <br>
 <br>
@@ -73,7 +73,7 @@
     @foreach ($boards as $board)
         <h3>
             <!-- ↓未ログイン掲示板閲覧画面 -->
-            <a href="{{ route('users.show', $board->id) }}">
+            <a href="{{ route('boards.show', $board->id) }}">
                 {{ $board->titlename }}
             </a>
         </h3>
@@ -82,7 +82,8 @@
 </div>
 
 <h3>
-    <a href="">掲示板作成</a>
+    <!-- ↓掲示板作成画面 -->
+    <a href="{{ route('boards.create') }}">掲示板作成</a>
 </h3>
 
 @endsection

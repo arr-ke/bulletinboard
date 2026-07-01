@@ -8,7 +8,7 @@
 
 <!-- ↓ログインメッセージがあるのかを真偽判定しています。 -->
 @if (session('loginmessage')) 
-    <div class="msg" style="display:none;">
+    <div id="msg" style="display:none;">
         {{ session('loginmessage') }}
     </div>
 @endif

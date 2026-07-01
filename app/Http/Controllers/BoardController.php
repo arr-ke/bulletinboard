@@ -44,7 +44,19 @@ class BoardController extends Controller
      */
     public function create()
     {
-        //
+        // ↓リンクエラーが起きていないのかを真偽判定しています。
+        if (!view()->exists('board.create')) {
+            // ↓エラー画面
+            return redirect()->route('boards.error')->with('value', "1");
+        }
+
+        try {
+            // ↓掲示板作成画面
+            return view("board.create");
+        } catch (Exception $e) {
+            // ↓エラー画面
+            return redirect()->route("board.error")->with('value', "2");
+        }
     }
 
     /**
@@ -105,7 +117,7 @@ class BoardController extends Controller
 
             if (!Auth::check() || !view()->exists('board.logout')) {
                 // ↓ログイン画面
-                return redirect()->route("users.index")->with('loginmessage', "ログアウトしました");
+                return redirect()->route("users.logininput")->with('loginmessage', "ログアウトしました");
             } else {
                 // ↓エラー画面
                 return redirect()->route("boards.error")->with('value', "1");
