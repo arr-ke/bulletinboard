@@ -73,7 +73,7 @@ class UserController extends Controller
             if (User::where('name', $request->input('id'))->exists()) {
                 // ↓ユーザー登録画面
                 return redirect()->route("users.create")
-                ->with('createerrormessage', "ユーザーIDがすでに使われています")
+                ->with('usercreateerrormessage', "ユーザーIDがすでに使われています")
                 ->withInput();
             }
 
@@ -95,7 +95,7 @@ class UserController extends Controller
         } else {
             // ↓ユーザー登録画面
             return redirect()->route("users.create")
-            ->with('createerrormessage', "ユーザー登録に失敗しました")
+            ->with('usercreateerrormessage', "ユーザー登録に失敗しました")
             ->withInput();
         }
     }

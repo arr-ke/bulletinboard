@@ -62,9 +62,32 @@ class BoardController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BoardRequest $request)
     {
-        //
+        $user_id = Auth::user()->id;
+        $titlename = $request->input("titlename");
+        $tema = $request->input("tema");
+
+        $board = new Board();
+        $board->user_id = $user_id;
+        $board->titlename = $titlename;
+        $board->tema = $tema;
+
+        $board->created_at = Carbon::now('Asia/Tokyo');
+
+        // ↓データベースに掲示板を登録できたのかを審議判定しています。
+        if ($board->save()) {
+            $boards = Board::all();
+
+            // ↓掲示板一覧画面
+            return view("board.index", compact("boards"));
+        } else {
+            // ↓掲示板作成画面
+            return redirect()->route("boards.create")
+            ->with('boardcreatemessage', "掲示板の作成に失敗しました。")
+            ->withInput();
+        }
+        
     }
 
     /**

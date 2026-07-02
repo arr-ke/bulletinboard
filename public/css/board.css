@@ -37,8 +37,6 @@ h3 {
 .text2 {
     /* フォントサイズ */
     font-size: 20px;
-    /* 外側左サイズ */
-    margin-left: 12px;
 }
 
 /* inputのtext3のCSS */

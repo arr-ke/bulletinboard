@@ -7,9 +7,9 @@
 <h1>ユーザー登録</h1>
 
 <!-- ↓ユーザー作成エラーメッセージがあるのかを真偽判定しています。 -->
-@if (session('createerrormessage')) 
+@if (session('usercreateerrormessage')) 
     <div id="msg" style="display:none;">
-        {{ session('createerrormessage') }}
+        {{ session('usercreateerrormessage') }}
     </div>
 @endif
 
