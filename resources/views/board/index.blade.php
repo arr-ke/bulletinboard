@@ -29,6 +29,10 @@
     <nav class="nav">
         <ul>
             <li>
+                <h3>{{ Auth::user()->name }}さん</h3>
+            </li>
+
+            <li>
                 <!-- ↓ログアウト処理 -->
                 <form action="{{ route('boards.logout') }}" method="get" onsubmit="return confirm('ログアウトしますか')">
                     <button type="submit" class="submit1">ログアウト</button>

@@ -52,6 +52,7 @@
 @endforeach
 
 <h3>{{ $board->titlename }}</h3>
+<h3>{{ $board->tema }}</h3>
 
 <!-- ↓boardimgsテーブルを呼び出しています。 -->
 @foreach ($boardimgs as $boardimg)

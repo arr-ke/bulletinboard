@@ -21,6 +21,11 @@
     </div>
     <nav class="nav">
         <ul>
+
+            <li>
+                <h3>{{ Auth::user()->name }}さん</h3>
+            </li>
+
             <li>
                 <!-- ↓ログアウト処理 -->
                 <form action="{{ route('boards.logout') }}" method="get" onsubmit="return confirm('ログアウトしますか')">
@@ -55,6 +60,9 @@
 
     <h3>掲示板テーマ</h3>
     <textarea name="tema" rows="8" cols=30" value="{{ old('tema') }}" class="text3" placeholder="100文字以内" maxlength="100" required></textarea>
+
+    <h3>掲示板テーマ画像</h3>
+    <input type="file" name="img" multiple>
 
     <br>
     <br>
