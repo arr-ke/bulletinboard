@@ -10,6 +10,7 @@
     <script src="{{ asset('js/hamburger.js') }}"></script>
     <script src="{{ asset('js/alert.js') }}"></script>
     <script src="{{ asset('js/countalert.js') }}"></script>
+    <script src="{{ asset('js/file.js') }}"></script>
 </head>
 <body>
     

@@ -75,8 +75,34 @@ class BoardController extends Controller
 
         $board->created_at = Carbon::now('Asia/Tokyo');
 
+
         // ↓データベースに掲示板を登録できたのかを審議判定しています。
         if ($board->save()) {
+            
+            $imgs = $request->file("img");
+            if ($imgs) {
+                
+                // ↓画像の登録処理
+                foreach ($imgs as $img) {
+                    
+                    // ↓画像があるのかを真偽判定しています。
+                    if ($img->isValid()) {
+
+                        
+                        $boardimg = new Boardimg();
+
+                        $boardimg->board_id = Board::latest()->value("id");
+                        
+                        $path = $img->store('image', 'public');
+                        $boardimg->image_name = 'storage/' . $path;
+
+                        $board->created_at = Carbon::now('Asia/Tokyo');
+
+                        $boardimg->save();
+                    }
+                }
+            }
+
             $boards = Board::all();
 
             // ↓掲示板一覧画面
