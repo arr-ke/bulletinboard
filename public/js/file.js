@@ -1,5 +1,5 @@
 // ↓ファイルサイズとファイル枚数をチェックをする関数
-function checkFileSizeAndCount(inputElement, maxMb = 10, maxCount = 10) {
+function checkFileSizeAndCount(inputElement, maxMb = 5, maxCount = 10) {
     const files = inputElement.files;
     if (!files || files.length === 0) return;
 

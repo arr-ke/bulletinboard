@@ -121,7 +121,27 @@ class BoardController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // ↓リンクエラーが起きていないのかを真偽判定しています。
+        if (!view()->exists('board.show')) {
+            // ↓エラー画面
+            return redirect()->route("boards.error")->with('value', "1");
+        }
+
+        try {
+
+            $users = User::all();
+            $board = Board::findOrFail($id);
+            $boardimgs = Boardimg::where("board_id", $id)->get();
+            $boardreads = Boardread::where("board_id", $id)->get();
+            $boardreadimgs = Boardreadimg::where("board_id", $id)->get();
+            
+            // ↓掲示板閲覧画面
+            return view("board.show", compact("users", "board", "boardimgs", "boardreads", "boardreadimgs"));
+        // ↓原因不明エラーが起きた時
+        } catch (Exception $e) {
+            // ↓エラー画面
+            return redirect()->route("boards.error")->with('value', "2");
+        }
     }
 
     /**
@@ -145,7 +165,18 @@ class BoardController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $board = Board::findOrFail($id);
+
+        // ↓削除できているのかを真偽判定しています。
+        if ($board->delete()) {
+            $boards = Board::all();
+
+            // ↓掲示板一覧画面
+            return view("board.index", compact("boards"));
+        } else {
+
+        }
+
     }
 
     public function error(BoardRequest $request) {

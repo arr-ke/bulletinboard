@@ -230,3 +230,9 @@ h3 {
     top: 25px;
     transform: rotate(45deg);
 }
+
+/* img1のCSS */
+.img1 {
+    /* 中央揃え */
+    text-align: center;
+}

@@ -1,4 +1,4 @@
-<!-- 未ログイン掲示板閲覧画面 -->
+<!-- 掲示板閲覧画面 -->
 
 @extends('layout.userapp')
 
@@ -15,19 +15,21 @@
     <nav class="nav">
         <ul>
             <li>
-                <!-- ↓ログイン画面 -->
-                <form action="{{ route('users.logininput') }}" method="get">
-                    @csrf
-                    <button type="submit" class="submit1">ログイン</button>
+                <h3>{{ Auth::user()->name }}さん</h3>
+            </li>
+
+            <li>
+                <!-- ↓ログアウト処理 -->
+                <form action="{{ route('boards.logout') }}" method="get" onsubmit="return confirm('ログアウトしますか')">
+                    <button type="submit" class="submit1">ログアウト</button>
                 </form>
             </li>
 
             <br>
 
             <li>
-                <!-- ↓ユーザー登録画面 -->
-                <form action="{{ route('users.create') }}" method="get">
-                    <button type="submit" class="submit1">ユーザー登録</button>
+                <form action="" method="">
+                    <button type="submit" class="submit1">ユーザー編集</button>
                 </form>
             </li>
 
@@ -35,7 +37,7 @@
 
             <li>
                 <!-- ↓未ログイン掲示板一覧画面 -->
-                <form action="{{ route('users.index') }}" method="get">
+                <form action="{{ route('boards.index') }}" method="get">
                     <button type="submit" class="submit1">掲示板一覧</button>
                 </form>
             </li>
@@ -102,6 +104,19 @@
         <br>
     @endforeach
 </div>
+
+<br>
+<br>
+
+<!-- ↓ログイン中のuseridとboardsテーブルのuser_idが一致しているのかを真偽判定しています。 -->
+@if (Auth::user()->id === $board->user_id)
+    <!-- ↓削除処理 -->
+    <form action="{{ route('boards.destroy', $board->id) }}" class="form1" onsubmit="return confirm('削除しますか')" method="post">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="submit3">削除</button>
+    </form>
+@endif
 
 
 @endsection
