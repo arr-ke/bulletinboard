@@ -4,6 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\BoardreadRequest;
+use App\Models\User;
+use App\Models\Board;
+use App\Models\Boardimg;
+use App\Models\boardread;
+use App\Models\boardreadimg;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+use Exception;
 
 class BoardreadController extends Controller
 {
@@ -20,7 +30,19 @@ class BoardreadController extends Controller
      */
     public function create()
     {
-        //
+        // ↓リンクエラーが起きていないのかを真偽判定しています。
+        if (!view()->exists('boardread.create')) {
+            // ↓エラー画面
+            return redirect()->route('boards.error')->with('value', "1");
+        }
+
+        try {
+            // ↓掲示板コメント作成画面
+            return view("boardread.create");
+        } catch (Exception $e) {
+            // ↓エラー画面
+            return redirect()->route("board.error")->with('value', "2");
+        }
     }
 
     /**

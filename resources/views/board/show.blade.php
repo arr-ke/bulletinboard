@@ -6,6 +6,13 @@
 
 <h1>掲示板閲覧</h1>
 
+<!-- ↓ユーザー作成エラーメッセージがあるのかを真偽判定しています。 -->
+@if (session('boarddeleteerrormessage')) 
+    <div id="msg" style="display:none;">
+        {{ session('boarddeleteerrormessage') }}
+    </div>
+@endif
+
 <header id="header">
     <div class="hamburger">
         <span></span>
@@ -117,6 +124,11 @@
         <button type="submit" class="submit3">削除</button>
     </form>
 @endif
+
+<h3>
+    <!-- ↓掲示板作成画面 -->
+    <a href="{{ route('boardreads.create') }}">コメント書き込み</a>
+</h3>
 
 
 @endsection

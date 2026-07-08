@@ -18,7 +18,7 @@
                 <!-- ↓ログイン画面 -->
                 <form action="{{ route('users.logininput') }}" method="get">
                     @csrf
-                    <button type="submit" class="submit1">ログイン</button>
+                    <button type="submit" class="submit1">ユーザーログイン</button>
                 </form>
             </li>
 

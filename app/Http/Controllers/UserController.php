@@ -185,7 +185,7 @@ class UserController extends Controller
             if (Auth::attempt($login)) {
 
                 // ↓掲示板一覧画面
-                return redirect()->route("boards.index")->with('loginmessage', "ログインに成功しました");
+                return redirect()->route("boards.index");
             }
             // ↓ログイン画面
             return redirect()->route("users.logininput")->with('loginmessage', "ログインに失敗しました");

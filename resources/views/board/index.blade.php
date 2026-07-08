@@ -6,13 +6,6 @@
 
 <h1>掲示板一覧</h1>
 
-<!-- ↓ログインメッセージがあるのかを真偽判定しています。 -->
-@if (session('loginmessage')) 
-    <div id="msg" style="display:none;">
-        {{ session('loginmessage') }}
-    </div>
-@endif
-
 <!-- ↓エラーメッセージがあるのかを真偽判定しています。 -->
 @if (session('errormessage')) 
     <div id="msg" style="display:none;">

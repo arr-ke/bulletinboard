@@ -11,6 +11,7 @@ use App\Models\Boardimg;
 use App\Models\boardread;
 use App\Models\boardreadimg;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Exception;
 
@@ -64,6 +65,8 @@ class BoardController extends Controller
      */
     public function store(BoardRequest $request)
     {
+        // 掲示板作成処理
+
         $user_id = Auth::user()->id;
         $titlename = $request->input("titlename");
         $tema = $request->input("tema");
@@ -110,7 +113,7 @@ class BoardController extends Controller
         } else {
             // ↓掲示板作成画面
             return redirect()->route("boards.create")
-            ->with('boardcreatemessage', "掲示板の作成に失敗しました。")
+            ->with('boardcreatemessage', "掲示板の作成に失敗しました")
             ->withInput();
         }
         
@@ -128,7 +131,6 @@ class BoardController extends Controller
         }
 
         try {
-
             $users = User::all();
             $board = Board::findOrFail($id);
             $boardimgs = Boardimg::where("board_id", $id)->get();
@@ -165,16 +167,38 @@ class BoardController extends Controller
      */
     public function destroy(string $id)
     {
+        // 掲示板削除処理
+
         $board = Board::findOrFail($id);
 
-        // ↓削除できているのかを真偽判定しています。
+        $boardimgs = Boardimg::where("board_id", $board->id)->get();
+
+        // ↓掲示板に保存されている画像があるのかを真偽判定しています。
+        foreach ($boardimgs as $boardimg) {
+
+            $deletepath = str_replace('storage', '', $boardimg->image_name);
+            Storage::disk('public')->delete($deletepath);
+        
+            $boardimg->delete();
+        }
+
+        // ↓掲示板が削除できているのかを真偽判定しています。
         if ($board->delete()) {
             $boards = Board::all();
 
             // ↓掲示板一覧画面
             return view("board.index", compact("boards"));
         } else {
+            $users = User::all();
+            $board = Board::findOrFail($id);
+            $boardimgs = Boardimg::where("board_id", $id)->get();
+            $boardreads = Boardread::where("board_id", $id)->get();
+            $boardreadimgs = Boardreadimg::where("board_id", $id)->get();
 
+            $boarddeletemessage = "掲示板の削除に失敗しました。";
+
+            // ↓掲示板閲覧画面
+            return view("board.show", compact("users", "board", "boardimgs", "boardreads", "boardreadimgs", "boarddeletemessage"));
         }
 
     }
@@ -197,7 +221,7 @@ class BoardController extends Controller
 
             if (!Auth::check() || !view()->exists('board.logout')) {
                 // ↓ログイン画面
-                return redirect()->route("users.logininput")->with('loginmessage', "ログアウトしました");
+                return redirect()->route("users.logininput");
             } else {
                 // ↓エラー画面
                 return redirect()->route("boards.error")->with('value', "1");
