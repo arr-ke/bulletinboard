@@ -28,7 +28,7 @@ class BoardreadController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Boardreadrequest $request)
     {
         // ↓リンクエラーが起きていないのかを真偽判定しています。
         if (!view()->exists('boardread.create')) {
@@ -37,8 +37,9 @@ class BoardreadController extends Controller
         }
 
         try {
+            $board = Board::findOrFail($id);
             // ↓掲示板コメント作成画面
-            return view("boardread.create");
+            return view("boardread.create", compact("board"));
         } catch (Exception $e) {
             // ↓エラー画面
             return redirect()->route("board.error")->with('value', "2");

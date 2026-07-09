@@ -127,7 +127,7 @@
 
 <h3>
     <!-- ↓掲示板作成画面 -->
-    <a href="{{ route('boardreads.create') }}">コメント書き込み</a>
+    <a href="{{ route('boardreads.create', $board->id) }}">コメント書き込み</a>
 </h3>
 
 
