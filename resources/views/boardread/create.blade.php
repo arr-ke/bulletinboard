@@ -54,11 +54,11 @@
 
             <li>
                 <!-- ↓未ログイン掲示板一覧画面 -->
-                <form action="{{ route('boards.show' '') }}" method="get">
-                    <input type="hidden" name="board_id", value="{{ $board->id }}">
+                <form action="{{ route('boards.show', $board->id) }}" method="get">
                     <button type="submit" class="submit1">掲示板閲覧</button>
                 </form>
             </li>
+
         </ul>
     </nav>
 </header>
@@ -74,6 +74,8 @@
 
     <h3>掲示板コメント画像</h3>
     <input type="file" name="img[]" multiple>
+
+    <input type="hidden" name="boardid" value="{{ $board->id }}">
 
     <br>
     <br>

@@ -135,7 +135,7 @@ class BoardController extends Controller
             $board = Board::findOrFail($id);
             $boardimgs = Boardimg::where("board_id", $id)->get();
             $boardreads = Boardread::where("board_id", $id)->get();
-            $boardreadimgs = Boardreadimg::where("board_id", $id)->get();
+            $boardreadimgs = Boardreadimg::all();
             
             // ↓掲示板閲覧画面
             return view("board.show", compact("users", "board", "boardimgs", "boardreads", "boardreadimgs"));

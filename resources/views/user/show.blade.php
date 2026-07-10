@@ -68,7 +68,12 @@
     @if ($count == 1 || $count == 6)
         <h3>
     @endif
-    <img src="{{ asset($boardimg->image_name) }}" height="150" width="200" class="img1">
+
+    <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
+    @if ($boardread->id == $boardreadimg->boardread_id)
+        <img src="{{ asset($boardreadimg->image_name) }}" height="50" width="100" class="img1">
+    @endif
+
     <!-- ↓countが5または、10なのかを真偽判定しています。 -->
     @if ($count == 5 || $count == 10)
         </h3>
@@ -89,15 +94,34 @@
             
         <h3>{{ $boardread->comment }}</h3>
 
+        @php
+            $count = 0;
+        @endphp
+
         <!-- ↓boardreadimgsテーブルを呼び出しています。 -->
         @foreach ($boardreadimgs as $boardreadimg)
-            <!-- ↓boardreadimgsのboardread_idとboardreadのidが一致しているのかを真偽判定しています。 -->
-            @if ($boardreadimg->boardread_id == $boardread->id)
+            @php
+                $count++;
+            @endphp
 
-                <h3>{{ $boardreadimg->image_name }}</h3>
+
+            <!-- ↓countが1または、6なのかを真偽判定しています。 -->
+            @if ($count == 1 || $count == 6)
+                <h3>
+            @endif
+
+            <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
+            @if ($boardread->id == $boardreadimg->boardread_id)
+                <img src="{{ asset($boardreadimg->image_name) }}" height="50" width="100" class="img1">
+            @endif
+            
+            <!-- ↓countが5または、10なのかを真偽判定しています。 -->
+            @if ($count == 5 || $count == 10)
+                </h3>
+                <br>
             @endif
         @endforeach
-        </h3>
+        
         <hr>
         <br>
     @endforeach

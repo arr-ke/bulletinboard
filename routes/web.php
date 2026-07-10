@@ -17,7 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::resource("boards", BoardController::class);
 
     // ↓掲示板のパス
-    Route::resource("boardreads", BoardreadController::class);
+    Route::resource("boardreads", BoardreadController::class)->except(['create']);
+
+    Route::get('/board/create/{id}', [BoardreadController::class, 'create'])->name('boardreads.create');
 });
 
 // ↓ログインインプットのパス
