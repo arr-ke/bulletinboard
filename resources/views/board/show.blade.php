@@ -94,40 +94,44 @@
 <div class="box2">
     <!-- ↓boardreadsテーブルを呼び出しています。 -->
     @foreach ($boardreads as $boardread)
-        <h3>{{ $boardread->user_name }}さん</h3>
-            
-        <h3>{{ $boardread->comment }}</h3>
+        <a href="{{ route('boardreads.edit', $boardread->id) }}">
 
-        @php
-            $count = 0;
-        @endphp
+        
+            <h3>{{ $boardread->user_name }}さん</h3>
+                
+            <h3>{{ $boardread->comment }}</h3>
 
-        <!-- ↓boardreadimgsテーブルを呼び出しています。 -->
-        @foreach ($boardreadimgs as $boardreadimg)
             @php
-                $count++;
+                $count = 0;
             @endphp
 
+            <!-- ↓boardreadimgsテーブルを呼び出しています。 -->
+            @foreach ($boardreadimgs as $boardreadimg)
+                @php
+                    $count++;
+                @endphp
 
-            <!-- ↓countが1または、6なのかを真偽判定しています。 -->
-            @if ($count == 1 || $count == 6)
-                <h3>
-            @endif
 
-            <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
-            @if ($boardread->id == $boardreadimg->boardread_id)
-                <img src="{{ asset($boardreadimg->image_name) }}" height="50" width="100" class="img1">
-            @endif
+                <!-- ↓countが1または、6と掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
+                @if ($count == 1 || $count == 6 && $boardread->id === $boardreadimg->boardread_id)
+                    <h3>
+                @endif
+
+                <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
+                @if ($boardread->id == $boardreadimg->boardread_id)
+                    <img src="{{ asset($boardreadimg->image_name) }}" height="70" width="120" class="img1">
+                @endif
+                
+                <!-- ↓countが5または、10掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
+                @if ($count == 5 || $count == 10 && $boardread->id === $boardreadimg->boardread_id)
+                    </h3>
+                    <br>
+                @endif
+            @endforeach
             
-            <!-- ↓countが5または、10なのかを真偽判定しています。 -->
-            @if ($count == 5 || $count == 10)
-                </h3>
-                <br>
-            @endif
-        @endforeach
-        
-        <hr>
-        <br>
+            <hr>
+            <br>
+    </a>
     @endforeach
 </div>
 

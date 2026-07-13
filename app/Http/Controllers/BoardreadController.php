@@ -126,7 +126,24 @@ class BoardreadController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // ↓リンクエラーが起きていないのかを真偽判定しています。
+        if (!view()->exists('boardread.edit')) {
+            // ↓エラー画面
+            return redirect()->route('boards.error')->with('value', "1");
+        }
+
+        try {
+            $boardread = Boardread::findOrFail($id);
+            $boardreadimg = Boardreadimg::where('boardread_id', $id);
+            $board = Board::where('id', $boardread->board_id);
+            $user = User::where('id', $boardread->user_id);
+
+            // ↓掲示板コメント編集画面
+            return view("boardread.edit", compact("boardread", "boardreadimg", "board", "user"));
+        } catch (Exception $e) {
+            // ↓エラー画面
+            return redirect()->route("board.error")->with('value', "2");
+        }
     }
 
     /**

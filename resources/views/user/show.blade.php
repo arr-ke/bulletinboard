@@ -69,10 +69,7 @@
         <h3>
     @endif
 
-    <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
-    @if ($boardread->id == $boardreadimg->boardread_id)
-        <img src="{{ asset($boardreadimg->image_name) }}" height="50" width="100" class="img1">
-    @endif
+    <img src="{{ asset($boardimg->image_name) }}" height="150" width="200" class="img1">
 
     <!-- ↓countが5または、10なのかを真偽判定しています。 -->
     @if ($count == 5 || $count == 10)
@@ -105,18 +102,18 @@
             @endphp
 
 
-            <!-- ↓countが1または、6なのかを真偽判定しています。 -->
-            @if ($count == 1 || $count == 6)
+            <!-- ↓countが1または、6と掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
+            @if ($count == 1 || $count == 6 && $boardread->id === $boardreadimg->boardread_id)
                 <h3>
             @endif
 
             <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
-            @if ($boardread->id == $boardreadimg->boardread_id)
-                <img src="{{ asset($boardreadimg->image_name) }}" height="50" width="100" class="img1">
+            @if ($boardread->id === $boardreadimg->boardread_id)
+                <img src="{{ asset($boardreadimg->image_name) }}" height="70" width="120" class="img1">
             @endif
             
-            <!-- ↓countが5または、10なのかを真偽判定しています。 -->
-            @if ($count == 5 || $count == 10)
+            <!-- ↓countが5または、10と掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
+            @if ($count == 5 || $count == 10 && $boardread->id === $boardreadimg->boardread_id)
                 </h3>
                 <br>
             @endif

@@ -67,10 +67,10 @@
 <form action="{{ route('boardreads.store') }}" enctype="multipart/form-data" class="form1" method="post">
     @csrf
     <h3>ユーザー名（ログイン名以外も可）</h3>
-    <input type="text" name="username" value="{{ old('titlename') }}" maxlength="50" placeholder="50文字以内" class="text2" required>
+    <input type="text" name="username" value="{{ old('username') }}" maxlength="50" placeholder="50文字以内" class="text2" required>
 
     <h3>掲示板コメント</h3>
-    <textarea name="comment" rows="8" cols=30" value="{{ old('tema') }}" class="text3" placeholder="100文字以内" maxlength="100" required></textarea>
+    <textarea name="comment" rows="8" cols=30" value="{{ old('comment') }}" class="text3" placeholder="100文字以内" maxlength="100" required></textarea>
 
     <h3>掲示板コメント画像</h3>
     <input type="file" name="img[]" multiple>
