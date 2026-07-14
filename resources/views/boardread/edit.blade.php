@@ -1,6 +1,6 @@
 <!-- 掲示板コメント編集画面 -->
 
-@extends('layout.userapp')
+@extends('layout.boardreadapp')
 
 @section('content')
 
@@ -58,17 +58,17 @@
 <form action="{{ route('boardreads.update', $boardread->id) }}" enctype="multipart/form-data" class="form1" method="post">
     @csrf
     <h3>ユーザー名（ログイン名以外も可）</h3>
-    @if (old('titlename'))
+    @if (old('username'))
         <input type="text" name="username" value="{{ old('username') }}" maxlength="50" placeholder="50文字以内" class="text2" required>
     @else
-        <input type="text" name="username" value="{{ $boardread->username }}" maxlength="50" placeholder="50文字以内" class="text2" required>
+        <input type="text" name="username" value="{{ $boardread->user_name }}" maxlength="50" placeholder="50文字以内" class="text2" required>
     @endif
 
     <h3>掲示板コメント</h3>
     @if (old('comment'))
-        <textarea name="comment" rows="8" cols=30" value="{{ old('comment') }}" class="text3" placeholder="100文字以内" maxlength="100" required></textarea>
+        <textarea name="comment" rows="8" cols="30" class="text3" placeholder="100文字以内" maxlength="100" required>{{ old('comment') }}</textarea>
     @else
-        <textarea name="comment" rows="8" cols=30" value="{{ $boardread->comment }}" class="text3" placeholder="100文字以内" maxlength="100" required></textarea>
+        <textarea name="comment" rows="8" cols=30" class="text3" placeholder="100文字以内" maxlength="100" required>{{ $boardread->comment }}</textarea>
     @endif   
 
     <h3>掲示板コメント画像</h3>
@@ -76,32 +76,60 @@
     <div class="box2">
         <!-- ↓boardreadsテーブルを呼び出しています。 -->
 
+    @php
+        $count = 0;
+    @endphp
 
         <!-- ↓boardreadimgsテーブルを呼び出しています。 -->
         @foreach ($boardreadimgs as $boardreadimg)
+            @php
+                $count++;
+            @endphp
+
 
 
             <!-- ↓countが1または、6と掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
-            @if ($count == 1 || $count == 6 && $boardread->id === $boardreadimg->boardread_id)
+            @if ($count == 1 || $count == 6)
                 <h3>
             @endif
 
             <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
-            @if ($boardread->id == $boardreadimg->boardread_id)
+
+            
                 <img src="{{ asset($boardreadimg->image_name) }}" height="70" width="120" class="img1">
-            @endif
+                    
+                
+
+                <select name="imgselect">
+                    <option value="0">画像を削除しない</option>
+                    <option value="1">画像を削除する</option>
+                </select>
+
+            
+            
             
             <!-- ↓countが5または、10掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
-            @if ($count == 5 || $count == 10 && $boardread->id === $boardreadimg->boardread_id)
+            @if ($count == 5 || $count == 10)
+                
+                
                 </h3>
                 <br>
+            @else
+                
+                <br>
             @endif
+
         @endforeach
+
+        <!-- ↓countが0をこえているかつcountが5と10以外なのかを真偽判定しています。 -->
+        @if ($count > 0 && $count != 5 && $count != 10)
+            </h3>
+        @endif
     </div>
 
     <input type="file" name="img[]" multiple>
 
-    <input type="hidden" name="boardid" value="{{ $board->id }}">
+    
 
     <br>
     <br>
@@ -120,7 +148,7 @@
 <br>
 
 <!-- ↓ログイン中のuseridとboardsテーブルのuser_idが一致しているのかを真偽判定しています。 -->
-@if (Auth::user()->id === $board->user_id)
+@if (Auth::user()->id === $boardread->user_id)
     <!-- ↓削除処理 -->
     <form action="{{ route('boardreads.destroy', $boardread->id) }}" class="form1" onsubmit="return confirm('削除しますか')" method="post">
         @csrf

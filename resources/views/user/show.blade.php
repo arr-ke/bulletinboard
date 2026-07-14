@@ -122,6 +122,11 @@
         <hr>
         <br>
     @endforeach
+
+    <!-- ↓countが0をこえているかつcountが5と10以外なのかを真偽判定しています。 -->
+    @if ($count > 0 && $count != 5 && $count != 10)
+        </h3>
+    @endif
 </div>
 
 

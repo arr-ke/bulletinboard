@@ -134,12 +134,12 @@ class BoardreadController extends Controller
 
         try {
             $boardread = Boardread::findOrFail($id);
-            $boardreadimg = Boardreadimg::where('boardread_id', $id);
-            $board = Board::where('id', $boardread->board_id);
-            $user = User::where('id', $boardread->user_id);
+            $boardreadimgs = Boardreadimg::where('boardread_id', $id)->get();
+            $board = Board::where('id', $boardread->board_id)->get();
+            $user = User::where('id', $boardread->user_id)->get();
 
             // ↓掲示板コメント編集画面
-            return view("boardread.edit", compact("boardread", "boardreadimg", "board", "user"));
+            return view("boardread.edit", compact("boardread", "boardreadimgs", "board", "user"));
         } catch (Exception $e) {
             // ↓エラー画面
             return redirect()->route("board.error")->with('value', "2");
