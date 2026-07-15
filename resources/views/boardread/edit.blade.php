@@ -49,14 +49,26 @@
                 </form>
             </li>
 
+            <br>
+
+            <li>
+                <!-- ↓未ログイン掲示板一覧画面 -->
+                <form action="{{ route('boards.show', $boardread->board_id) }}" method="get">
+                    <button type="submit" class="submit1">掲示板閲覧</button>
+                </form>
+            </li>
+
             
         </ul>
     </nav>
 </header>
 
-<!-- ↓掲示板作成処理 -->
+<!-- ↓掲示板コメント編集処理 -->
 <form action="{{ route('boardreads.update', $boardread->id) }}" enctype="multipart/form-data" class="form1" method="post">
     @csrf
+
+    @method('PATCH')
+
     <h3>ユーザー名（ログイン名以外も可）</h3>
     @if (old('username'))
         <input type="text" name="username" value="{{ old('username') }}" maxlength="50" placeholder="50文字以内" class="text2" required>
@@ -95,9 +107,10 @@
 
             <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
 
-            
+                <h3>画像{{ $count }}</h3>
                 <img src="{{ asset($boardreadimg->image_name) }}" height="70" width="120" class="img1">
                     
+                <br>
                 
 
                 <select name="imgselect">
@@ -105,7 +118,6 @@
                     <option value="1">画像を削除する</option>
                 </select>
 
-            
             
             
             <!-- ↓countが5または、10掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
@@ -127,29 +139,29 @@
         @endif
     </div>
 
+    <br>
+
     <input type="file" name="img[]" multiple>
 
+    <input type="hidden" name="boardid" value="{{ $boardread->board_id }}">
     
+    <input type="hidden" name="boardreadid" value="{{ $boardread->id }}">
 
     <br>
     <br>
 
-    <button type="submit" class="submit3">作成</button>
+    <button type="submit" class="submit3">更新</button>
 </form>
 
 <hr>
 
 <br>
-<br>
-<br>
 
 
-<br>
-<br>
 
 <!-- ↓ログイン中のuseridとboardsテーブルのuser_idが一致しているのかを真偽判定しています。 -->
 @if (Auth::user()->id === $boardread->user_id)
-    <!-- ↓削除処理 -->
+    <!-- ↓掲示板コメント削除処理 -->
     <form action="{{ route('boardreads.destroy', $boardread->id) }}" class="form1" onsubmit="return confirm('削除しますか')" method="post">
         @csrf
         @method('DELETE')

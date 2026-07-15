@@ -145,7 +145,7 @@
 
 <!-- ↓ログイン中のuseridとboardsテーブルのuser_idが一致しているのかを真偽判定しています。 -->
 @if (Auth::user()->id === $board->user_id)
-    <!-- ↓削除処理 -->
+    <!-- ↓掲示板削除処理 -->
     <form action="{{ route('boards.destroy', $board->id) }}" class="form1" onsubmit="return confirm('削除しますか')" method="post">
         @csrf
         @method('DELETE')

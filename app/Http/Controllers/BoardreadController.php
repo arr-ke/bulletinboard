@@ -135,6 +135,7 @@ class BoardreadController extends Controller
         try {
             $boardread = Boardread::findOrFail($id);
             $boardreadimgs = Boardreadimg::where('boardread_id', $id)->get();
+
             $board = Board::where('id', $boardread->board_id)->get();
             $user = User::where('id', $boardread->user_id)->get();
 
@@ -151,7 +152,29 @@ class BoardreadController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // 掲示板コメント編集処理
+
+        $user_id = Auth::user()->id;
+        $board_id = $request->input("boardid");
+        $boardread_id = $request->input("boardreadid");
+        $user_name = $request->input("username");
+        $comment = $request->input("comment");
+
+        $boardread = Boardread::findOrFail($id);
+
+        $boardread->user_id = $user_id;
+        $boardread->board_id = $board_id;
+        $boardread->user_name = $user_name;
+        $boardread->comment = $comment;
+
+        $boardread->updated_at = Carbon::now('Asia/Tokyo');
+
+        $boardread->save();
+
+
+
+        return redirect()->route("boards.index");
+
     }
 
     /**

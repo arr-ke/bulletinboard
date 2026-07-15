@@ -63,7 +63,7 @@
     </nav>
 </header>
 
-<!-- ↓掲示板作成処理 -->
+<!-- ↓掲示板コメント作成処理 -->
 <form action="{{ route('boardreads.store') }}" enctype="multipart/form-data" class="form1" method="post">
     @csrf
     <h3>ユーザー名（ログイン名以外も可）</h3>
