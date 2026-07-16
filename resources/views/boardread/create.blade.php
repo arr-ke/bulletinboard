@@ -6,7 +6,7 @@
 
 <h1>掲示板コメント作成</h1>
 
-<!-- ↓ユーザー作成エラーメッセージがあるのかを真偽判定しています。 -->
+<!-- ↓掲示板コメント作成エラーメッセージがあるのかを真偽判定しています。 -->
 @if (session('boardreadcreateerrormessage')) 
     <div id="msg" style="display:none;">
         {{ session('boardreadcreateerrormessage') }}

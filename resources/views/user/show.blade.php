@@ -87,6 +87,12 @@
 <div class="box2">
     <!-- ↓boardreadsテーブルを呼び出しています。 -->
     @foreach ($boardreads as $boardread)
+
+        <!-- ↓掲示板コメントの作成日付と更新日付が一致していないのかを真偽判定しています。 -->
+        @if ($boardread->created_at != $boardread->updated_at)
+            <h3>編集済み</h3>
+        @endif
+
         <h3>{{ $boardread->user_name }}さん</h3>
             
         <h3>{{ $boardread->comment }}</h3>

@@ -88,9 +88,10 @@
     <div class="box2">
         <!-- ↓boardreadsテーブルを呼び出しています。 -->
 
-    @php
-        $count = 0;
-    @endphp
+        @php
+            $count = 0;
+        @endphp
+
 
         <!-- ↓boardreadimgsテーブルを呼び出しています。 -->
         @foreach ($boardreadimgs as $boardreadimg)
@@ -113,7 +114,7 @@
                 <br>
                 
 
-                <select name="imgselect">
+                <select name="imgselect[{{ $boardreadimg->id }}]">
                     <option value="0">画像を削除しない</option>
                     <option value="1">画像を削除する</option>
                 </select>

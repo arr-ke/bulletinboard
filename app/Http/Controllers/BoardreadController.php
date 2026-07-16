@@ -76,6 +76,8 @@ class BoardreadController extends Controller
         if ($boardread->save()) {
             
             $imgs = $request->file("img");
+
+            // ↓画像があるのかを真偽判定しています。
             if ($imgs) {
                 
                 // ↓画像の登録処理
@@ -108,7 +110,7 @@ class BoardreadController extends Controller
         } else {
             // ↓掲示板作成画面
             return redirect()->route("boards.create")
-            ->with('boardcreatemessage', "掲示板の作成に失敗しました")
+            ->with('boardreadupdatemessage', "掲示板コメント作成に失敗しました")
             ->withInput();
         }
     }
@@ -172,9 +174,33 @@ class BoardreadController extends Controller
         $boardread->save();
 
 
+        $boardreadimgs = Boardimg::where("board_id", $board_id)->get();
 
-        return redirect()->route("boards.index");
+        $imgs = $request->file("img");
 
+        // ↓画像があるのかを真偽判定しています。
+        if ($imgs) {
+            //画像削除処理
+            $imgselects = $request->input('imgselect', []);
+
+            foreach ($imgselects as $imgid => $value) {
+                // 画像削除が選択されているのかを真偽判定しています。
+                if ($value == 1) {
+                    $boardreadimgs = Boardreadimg::find($imgid);
+
+                    // ↓掲示板に保存されている画像があるのかを真偽判定しています。
+                    if ($boardreadimg && $boardreadimg->board_id === $board_id) {
+
+                        $deletepath = str_replace('storage', '', $boardreadimg->image_name);
+                        Storage::disk('public')->delete($deletepath);
+                    
+                        $boardreadimg->delete();
+                    }
+                }
+            }
+
+            return redirect()->route("boards.show", $board_id);
+        } 
     }
 
     /**
