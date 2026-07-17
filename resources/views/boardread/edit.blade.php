@@ -6,10 +6,10 @@
 
 <h1>掲示板コメント編集</h1>
 
-<!-- ↓ユーザー作成エラーメッセージがあるのかを真偽判定しています。 -->
-@if (session('boarddeleteerrormessage')) 
+<!-- ↓掲示板コメント編集エラーメッセージがあるのかを真偽判定しています。 -->
+@if (session('boardupdeleeerrormessage')) 
     <div id="msg" style="display:none;">
-        {{ session('boarddeleteerrormessage') }}
+        {{ session('boardupdeleeerrormessage') }}
     </div>
 @endif
 
@@ -87,7 +87,6 @@
 
     <div class="box2">
         <!-- ↓boardreadsテーブルを呼び出しています。 -->
-
         @php
             $count = 0;
         @endphp
@@ -137,6 +136,11 @@
         <!-- ↓countが0をこえているかつcountが5と10以外なのかを真偽判定しています。 -->
         @if ($count > 0 && $count != 5 && $count != 10)
             </h3>
+        @endif
+
+        <!-- ↓countが0なのかを真偽判定しています。 -->
+        @if ($count == 0)
+            <h3>コメント画像はありません</h3>
         @endif
     </div>
 
