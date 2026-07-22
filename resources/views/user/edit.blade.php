@@ -1,15 +1,15 @@
-<!-- 掲示板一覧画面 -->
+<!-- ユーザー更新画面 -->
 
-@extends('layout.boardapp')
+@extends('layout.userapp')
 
 @section('content')
 
-<h1>掲示板一覧</h1>
+<h1>ユーザー更新</h1>
 
-<!-- ↓エラーメッセージがあるのかを真偽判定しています。 -->
-@if (session('errormessage')) 
+<!-- ↓ユーザー作成エラーメッセージがあるのかを真偽判定しています。 -->
+@if (session('userupdateerrormessage')) 
     <div id="msg" style="display:none;">
-        {{ session('errormessage') }}
+        {{ session('userupdateerrormessage') }}
     </div>
 @endif
 
@@ -35,8 +35,7 @@
             <br>
 
             <li>
-                <!-- ↓ユーザー編集画面 -->
-                <form action="{{ route('users.edit', Auth::user()->id) }}" method="get">
+                <form action="" method="">
                     <button type="submit" class="submit1">ユーザー編集</button>
                 </form>
             </li>
@@ -49,39 +48,31 @@
                     <button type="submit" class="submit1">掲示板一覧</button>
                 </form>
             </li>
+            
         </ul>
     </nav>
 </header>
 
+
 <br>
 <br>
 <br>
 
-<form action="" class="form1" method="post">
+<!-- ↓ユーザー更新処理 -->
+<form action="{{ route('users.update', $user->id) }}" class="form1" method="post">
     @csrf
-    <input type="text" name="searchname" class="text1">
-    <button type="submit" class="submit2">検索</button>
+
+    @method('PATCH')
+
+    <h3>PW <input type="password" name="pw" minlength="10" maxlength="20" value="{{ old('pw') }}" pattern="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{10,20}$" placeholder="英数字を含む文字数10～20文字以内" class="text5" required></h3>
+
+    <h3>PW確認 <input type="password" name="pwasr" minlength="10" maxlength="20" value="{{ old('pwasr') }}" pattern="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{10,20}$" placeholder="英数字を含む文字数10～20文字以内" class="text6" required></h3>
+
+    <br>
+    <br>
+
+    <button type="submit" class="submit3">更新</button>
 </form>
 
-<br>
-<br>
-<br>
-
-<div class="box1">
-    @foreach ($boards as $board)
-        <h3>
-            <!-- ↓未ログイン掲示板閲覧画面 -->
-            <a href="{{ route('boards.show', $board->id) }}">
-                {{ $board->titlename }}
-            </a>
-        </h3>
-        <br>
-    @endforeach
-</div>
-
-<h3>
-    <!-- ↓掲示板作成画面 -->
-    <a href="{{ route('boards.create') }}">掲示板作成</a>
-</h3>
 
 @endsection

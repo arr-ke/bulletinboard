@@ -123,11 +123,11 @@ h3 {
     /* 中央揃え */
     text-align: center;
     /* 縦幅サイズ */
-    height: 400px;
+    height: 600px;
     /* 横幅サイズ */
-    width: 800px;
+    width: 1200px;
     /* 外側左サイズ */
-    margin-left: 275px;
+    margin-left: 75px;
     /* 背景色 */
     background-color: #fff;
     /* スクロール */

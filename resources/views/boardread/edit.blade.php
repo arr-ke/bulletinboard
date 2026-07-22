@@ -7,9 +7,9 @@
 <h1>掲示板コメント編集</h1>
 
 <!-- ↓掲示板コメント編集エラーメッセージがあるのかを真偽判定しています。 -->
-@if (session('boardupdeleeerrormessage')) 
+@if (session('boardupdeleteerrormessage')) 
     <div id="msg" style="display:none;">
-        {{ session('boardupdeleeerrormessage') }}
+        {{ session('boardupdeleteerrormessage') }}
     </div>
 @endif
 
@@ -35,7 +35,8 @@
             <br>
 
             <li>
-                <form action="" method="">
+                <!-- ↓ユーザー編集画面 -->
+                <form action="{{ route('users.edit', Auth::user()->id) }}" method="get">
                     <button type="submit" class="submit1">ユーザー編集</button>
                 </form>
             </li>

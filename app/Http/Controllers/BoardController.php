@@ -173,7 +173,28 @@ class BoardController extends Controller
 
         $boardimgs = Boardimg::where("board_id", $board->id)->get();
 
-        // ↓掲示板に保存されている画像があるのかを真偽判定しています。
+        $boardreads = Boardread::where("board_id", $board->id)->get();
+
+        $boardreadimgs = Boardreadimg::where("board_id", $board->id)->get();
+
+        
+
+        // ↓掲示板コメントに保存されている画像データを呼び出しています。
+        foreach ($boardreadimgs as $boardreadimg) {
+
+            $deletepath = str_replace('storage', '', $boardreadimg->image_name);
+            Storage::disk('public')->delete($deletepath);
+        
+            $boardreadimg->delete();
+        }
+
+        // ↓掲示板コメントに保存されているデータを呼び出しています。
+        foreach ($boardreads as $boardread) {
+        
+            $boardread->delete();
+        }
+        
+        // ↓掲示板に保存されている画像データを呼び出しています。
         foreach ($boardimgs as $boardimg) {
 
             $deletepath = str_replace('storage', '', $boardimg->image_name);
@@ -181,6 +202,7 @@ class BoardController extends Controller
         
             $boardimg->delete();
         }
+
 
         // ↓掲示板が削除できているのかを真偽判定しています。
         if ($board->delete()) {

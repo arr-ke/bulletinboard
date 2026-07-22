@@ -115,18 +115,18 @@
 
             <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
             @if ($boardread->id === $boardreadimg->boardread_id)
-                <img src="{{ asset($boardreadimg->image_name) }}" height="70" width="120" class="img1">
+                <img src="{{ asset($boardreadimg->image_name) }}" height="150" width="200" class="img1">
             @endif
             
             <!-- ↓countが5または、10と掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
             @if ($count == 5 || $count == 10 && $boardread->id === $boardreadimg->boardread_id)
                 </h3>
-                <br>
+                
             @endif
         @endforeach
         
         <hr>
-        <br>
+        
     @endforeach
 
     <!-- ↓countが0をこえているかつcountが5と10以外なのかを真偽判定しています。 -->

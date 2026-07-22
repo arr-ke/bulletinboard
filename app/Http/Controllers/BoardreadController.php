@@ -103,10 +103,19 @@ class BoardreadController extends Controller
                 }
             }
 
-            $boards = Board::all();
+            $board = Board::findOrFail($board_id);
 
-            // ↓掲示板一覧画面
-            return view("board.index", compact("boards"));
+            $users = User::all();
+
+            $boardimgs = Boardimg::where("board_id", $board->id)->get();
+
+            $boardreads = Boardread::where("board_id", $board->id)->get();
+
+            $boardreadimgs = Boardreadimg::all();
+
+
+            // ↓掲示板閲覧画面
+            return view("board.show", compact("board", "users", "boardimgs", "boardreads", "boardreadimgs"));
         } else {
             // ↓掲示板作成画面
             return redirect()->route("boards.create")
@@ -171,90 +180,88 @@ class BoardreadController extends Controller
 
         $boardread->updated_at = Carbon::now('Asia/Tokyo');
 
-        $boardread->save();
+        // ↓データベースに掲示板コメントが登録できたのかを真偽判定しています。
+        if ($boardread->save()) {
+            //画像削除処理
+            $imgselects = $request->input('imgselect', []);
+    
+            // 掲示板画像を呼び出しています。
+            $boardreadimgs = Boardreadimg::where('board_id', $board_id)
+                                        ->where('boardread_id', $boardread_id)
+                                        ->get();
 
-        //画像削除処理
-        $imgselects = $request->input('imgselect', []);
- 
+            // ↓これはすでに登録されている画像が削除されているかの値です。
+            $value = false;
 
-        // 掲示板画像を呼び出しています。
-        $boardreadimgs = Boardreadimg::where('board_id', $board_id)
-                                    ->where('boardread_id', $boardread_id)
-                                    ->get();
+            foreach ($boardreadimgs as $boardreadimg) {
 
-        // ↓これはすでに登録されている画像が削除されているかの値です。
-        $value = false;
-
-        foreach ($boardreadimgs as $boardreadimg) {
-
-            // 画像が削除が選択されているのかを真偽判定しています。
-            if (isset($imgselects[$boardreadimg->id]) && $imgselects[$boardreadimg->id] == 1) {
-                $deletepath = str_replace('storage', '', $boardreadimg->image_name);
-                Storage::disk('public')->delete($deletepath);
-            
-                $boardreadimg->delete();
+                // 画像が削除が選択されているのかを真偽判定しています。
+                if (isset($imgselects[$boardreadimg->id]) && $imgselects[$boardreadimg->id] == 1) {
+                    $deletepath = str_replace('storage', '', $boardreadimg->image_name);
+                    Storage::disk('public')->delete($deletepath);
                 
-                
-            }
-        }
-
-
-        // 画像登録処理
-        $imgs = $request->file("img");
-
-        // 掲示板コメント画像のカウント処理
-        $count = 0;
-        
-        if ($imgs) {
-            // ↓これから登録する画像をカウントしています。
-            foreach ($imgs as $img) {
-                $count++;
-            }
-        }
-
-        // ↓すでに登録されている画像をカウントしています。
-        foreach ($boardreadimgs as $boardreadimg) {
-            $count++;
-        }
-
-
-        // ↓countが10なのかを真偽判定しています。
-        if ($count >= 11) {
-            // ↓掲示板コメント編集画面
-            return redirect()->route("boardreads.edit", $boardread_id)
-            ->with('boardupdeleeerrormessage', "掲示板コメント画像が10枚以上あります。\n画像の追加登録は一度画像削除してください。")
-            ->withInput();
-        }
-
-        // ↓画像があるのかを真偽判定しています。
-        if ($imgs) {
-            
-            // ↓画像の登録処理
-            foreach ($imgs as $img) {
-                
-                // ↓画像があるのかを真偽判定しています。
-                if ($img->isValid()) {
-
+                    $boardreadimg->delete();
                     
-                    $boardreadimg = new Boardreadimg();
-
-                    $boardreadimg->board_id = $board_id;
-                    $boardreadimg->boardread_id = $boardread_id;
                     
-                    $path = $img->store('image', 'public');
-                    $boardreadimg->image_name = 'storage/' . $path;
-
-                    $boardread->created_at = Carbon::now('Asia/Tokyo');
-                    $boardread->updated_at = Carbon::now('Asia/Tokyo');
-
-                    $boardreadimg->save();
                 }
             }
-        }
 
-        // ↓掲示板一覧画面
-        return redirect()->route("boards.show", $board_id);
-        
+            // 画像登録処理
+            $imgs = $request->file("img");
+
+            // 掲示板コメント画像のカウント処理
+            $count = 0;
+            
+            // ↓画像があるのかを真偽判定しています。
+            if ($imgs) {
+                // ↓これから登録する画像をカウントしています。
+                foreach ($imgs as $img) {
+                    $count++;
+                }
+            }
+
+            // ↓すでに登録されている画像をカウントしています。
+            foreach ($boardreadimgs as $boardreadimg) {
+                $count++;
+            }
+
+
+            // ↓countが10なのかを真偽判定しています。
+            if ($count >= 11) {
+                // ↓掲示板コメント編集画面
+                return redirect()->route("boardreads.edit", $boardread_id)
+                ->with('boardupdeleeerrormessage', "掲示板コメント画像が10枚以上あります。\n画像の追加登録は一度画像削除してください。")
+                ->withInput();
+            }
+
+            // ↓画像があるのかを真偽判定しています。
+            if ($imgs) {
+                // ↓画像の登録処理
+                foreach ($imgs as $img) {
+                    // ↓画像があるのかを真偽判定しています。
+                    if ($img->isValid()) {
+                        $boardreadimg = new Boardreadimg();
+                        $boardreadimg->board_id = $board_id;
+                        $boardreadimg->boardread_id = $boardread_id;
+                        
+                        $path = $img->store('image', 'public');
+                        $boardreadimg->image_name = 'storage/' . $path;
+
+                        $boardread->created_at = Carbon::now('Asia/Tokyo');
+                        $boardread->updated_at = Carbon::now('Asia/Tokyo');
+
+                        $boardreadimg->save();
+                    }
+                }
+            }
+            // ↓掲示板閲覧画面
+            return redirect()->route("boards.show", $board_id);
+        } else {
+            // ↓掲示板作成画面
+            return redirect()->route("boards.edit", $boardread_id)
+            ->with('boardupdeleteerrormessage', "掲示板コメント作成に失敗しました")
+            ->withInput();
+        }
     }
 
     /**
@@ -266,9 +273,10 @@ class BoardreadController extends Controller
 
         $boardread = Boardread::findOrFail($id);
 
+        $boardread_id = $boardread->id;
         $board_id = $boardread->board_id;
 
-        $boardreadimgs = Boardreadimg::where("boardread_id", $boardread->id)->get();
+        $boardreadimgs = Boardreadimg::where("boardread_id", $boardread_id)->get();
 
         // ↓掲示板に保存されているコメント画像があるのかを真偽判定しています。
         foreach ($boardreadimgs as $boardreadimg) {
@@ -281,24 +289,24 @@ class BoardreadController extends Controller
 
         // ↓掲示板コメントが削除できているのかを真偽判定しています。
         if ($boardread->delete()) {
-            $boards = Board::all();
-
+            $board = Board::findOrFail($board_id);
             $users = User::all();
+            $boardimgs = Boardimg::where("board_id", $board->id)->get();
+            $boardreads = Boardread::where("board_id", $board->id)->get();
+            $boardreadimgs = Boardreadimg::all();
 
             // ↓掲示板閲覧画面
-            return view("board.show", compact("board_id", $users));
+            return view("board.show", compact("board", "users", "boardimgs", "boardreads", "boardreadimgs"));
         } else {
             $boardread = Boardread::findOrFail($id);
             $boardreadimgs = Boardreadimg::where('boardread_id', $id)->get();
-
             $board = Board::where('id', $boardread->board_id)->get();
             $user = User::where('id', $boardread->user_id)->get();
 
-            
-            $boardupdeleeerrormessage = "掲示板コメントの削除に失敗しました。";
+            $boardupdeleteerrormessage = "掲示板コメントの削除に失敗しました。";
 
             // ↓掲示板コメント編集画面
-            return view("boardread.edit", compact("boardread", "boardreadimgs", "board", "user", "boardupdeleeerrormessage"));
+            return view("boardread.edit", compact("boardread", "boardreadimgs", "board", "user", "boardupdeleteerrormessage"));
 
         }
     }

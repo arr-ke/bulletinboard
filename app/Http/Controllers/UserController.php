@@ -112,7 +112,6 @@ class UserController extends Controller
         }
 
         try {
-
             $users = User::all();
             $board = Board::findOrFail($id);
             $boardimgs = Boardimg::where("board_id", $id)->get();
@@ -133,7 +132,23 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        // ↓リンクエラーが起きていないのかを真偽判定しています。
+        if (!view()->exists('user.edit')) {
+            // ↓エラー画面
+            return redirect()->route("boards.error")->with('value', "1");
+        }
+
+        try {
+            $user = User::findOrFail($id);
+            
+            // ↓未ログイン掲示板閲覧画面
+            return view("user.edit", compact("user"));
+        // ↓原因不明エラーが起きた時
+        } catch (Exception $e) {
+            // ↓エラー画面
+            return redirect()->route("boards.error")->with('value', "2");
+        }
     }
 
     /**
@@ -141,7 +156,30 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // ユーザー更新処理
+
+        // ↓pwとpwasrの値が一致しているのかを真偽判定しています。
+        if ($request->input("pw") === $request->input("pwasr")) {
+            $pw = $request->input("pw");
+
+            $user = User::findOrFail($id);
+
+            $user->password = $pw;
+            
+            $user->updated_at = Carbon::now('Asia/Tokyo');
+
+            $user->save();
+
+            $boards = Board::all();
+
+            // ↓掲示板一覧画面
+            return view("board.index", compact("boards"));
+        } else {
+            $user = User::findOrFail($id);
+
+            // ↓ユーザー編集画面
+            return view("users.edit", compact("user"))->withInput();
+        }
     }
 
     /**

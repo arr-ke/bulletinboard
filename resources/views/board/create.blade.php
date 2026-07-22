@@ -36,7 +36,8 @@
             <br>
 
             <li>
-                <form action="" method="">
+                <!-- ↓ユーザー編集画面 -->
+                <form action="{{ route('users.edit', Auth::user()->id) }}" method="get">
                     <button type="submit" class="submit1">ユーザー編集</button>
                 </form>
             </li>
