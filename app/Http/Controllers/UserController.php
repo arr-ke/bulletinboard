@@ -237,4 +237,37 @@ class UserController extends Controller
         // ↓エラー画面
         return view("user.error"); 
     }
+
+    public function search(UserRequest $request) {
+        // ↓リンクエラーが起きていないのかを真偽判定しています。
+        if (!view()->exists('user.index')) {
+            // ↓エラー画面
+            return redirect()->route('users.error')->with('value', "1");
+        }
+
+        $searchname = $request->input("searchname");
+
+        try {
+            // ↓検索値が入力されているのかを真偽判定しています。
+            if (filled($searchname)) {
+                $query = board::orderBy("id");
+
+                // ↓掲示板名を掲示板テーブルのtitlenameから検索しています。
+                $query->where('titlename', 'LIKE', '%' . $searchname . '%');
+
+                $boards = $query->get();
+
+                // ↓未ログイン掲示板一覧画面
+                return view("users.index", compact("boards"));
+            } else {
+                $boards = Board::all();
+
+                // ↓未ログイン掲示板一覧画面
+                return view("users.index", compact("boards"));
+            }
+        } catch (Exception $e) {
+            // ↓エラー画面
+            return redirect()->route("users.error")->with('value', "2");
+        }
+    }
 }

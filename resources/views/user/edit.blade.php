@@ -1,10 +1,10 @@
-<!-- ユーザー更新画面 -->
+<!-- ユーザー編集画面 -->
 
 @extends('layout.userapp')
 
 @section('content')
 
-<h1>ユーザー更新</h1>
+<h1>ユーザー編集</h1>
 
 <!-- ↓ユーザー作成エラーメッセージがあるのかを真偽判定しています。 -->
 @if (session('userupdateerrormessage')) 
@@ -35,7 +35,8 @@
             <br>
 
             <li>
-                <form action="" method="">
+                <!-- ↓ユーザー編集画面 -->
+                <form action="{{ route('users.edit', Auth::user()->id) }}" method="get">
                     <button type="submit" class="submit1">ユーザー編集</button>
                 </form>
             </li>

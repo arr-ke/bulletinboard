@@ -255,4 +255,8 @@ class BoardController extends Controller
         }
         
     }
+
+    public function search(UserRequest $request) {
+        
+    }
 }

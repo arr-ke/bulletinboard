@@ -57,9 +57,16 @@
 <br>
 <br>
 
-<form action="" class="form1" method="post">
+<form action="{{ route('boards.search') }}" class="form1" method="post">
     @csrf
-    <input type="text" name="searchname" class="text1">
+
+    <!-- ↓検索値があるのかを真偽判定しています。 -->
+    @if (session('searchname'))
+        <input type="text" name="searchname" value="{{ session('searchname') }}" class="text1">
+    @else
+        <input type="text" name="searchname" class="text1">
+    @endif
+
     <button type="submit" class="submit2">検索</button>
 </form>
 
