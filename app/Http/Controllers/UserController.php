@@ -30,8 +30,10 @@ class UserController extends Controller
 
         try {
             $boards = Board::all();
+            $searchname = null;
+
             // ↓未ログイン掲示板一覧画面
-            return view("user.index", compact("boards"));
+            return view("user.index", compact("boards", "searchname"));
         // ↓原因不明エラー起きた時
         } catch (Exception $e) {
             // ↓エラー画面
@@ -258,12 +260,12 @@ class UserController extends Controller
                 $boards = $query->get();
 
                 // ↓未ログイン掲示板一覧画面
-                return view("users.index", compact("boards"));
+                return view("user.index", compact("boards", "searchname"));
             } else {
                 $boards = Board::all();
 
                 // ↓未ログイン掲示板一覧画面
-                return view("users.index", compact("boards"));
+                return view("user.index", compact("boards", "searchname"));
             }
         } catch (Exception $e) {
             // ↓エラー画面

@@ -57,15 +57,11 @@
 <br>
 <br>
 
+<!-- ↓掲示板検索処理 -->
 <form action="{{ route('boards.search') }}" class="form1" method="post">
     @csrf
 
-    <!-- ↓検索値があるのかを真偽判定しています。 -->
-    @if (session('searchname'))
-        <input type="text" name="searchname" value="{{ session('searchname') }}" class="text1">
-    @else
-        <input type="text" name="searchname" class="text1">
-    @endif
+    <input type="text" name="searchname" value="{{ $searchname }}" class="text1">
 
     <button type="submit" class="submit2">検索</button>
 </form>
@@ -73,6 +69,30 @@
 <br>
 <br>
 <br>
+
+@php
+    $count = 0;
+    $board_id = 0;
+@endphp
+
+<!-- ヒットした掲示板の件数をカウントしている処理 -->
+@foreach ($boards as $board)
+    @php
+        $board_id = $board->id;
+    @endphp
+@endforeach
+
+@foreach ($boards as $board)
+    @if ($searchname != NULL)
+        @php
+            $count++;
+        @endphp
+    @endif
+@endforeach
+
+@if ($count >= 1)
+    <h3>ヒット数は{{ $count }}件です。</h3>
+@endif
 
 <div class="box1">
     @foreach ($boards as $board)
@@ -83,6 +103,7 @@
             </a>
         </h3>
         <br>
+        
     @endforeach
 </div>
 

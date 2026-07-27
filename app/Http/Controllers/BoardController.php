@@ -30,8 +30,10 @@ class BoardController extends Controller
 
         try {
             $boards = Board::all();
+            $searchname = null;
+
             // ↓掲示板一覧画面
-            return view("board.index", compact("boards"));
+            return view("board.index", compact("boards", "searchname"));
         // ↓原因不明エラー起きた時
         } catch (Exception $e) {
             // ↓エラー画面
@@ -107,9 +109,10 @@ class BoardController extends Controller
             }
 
             $boards = Board::all();
+            $searchname = null;
 
             // ↓掲示板一覧画面
-            return view("board.index", compact("boards"));
+            return view("board.index", compact("boards", "searchname"));
         } else {
             // ↓掲示板作成画面
             return redirect()->route("boards.create")
@@ -207,9 +210,10 @@ class BoardController extends Controller
         // ↓掲示板が削除できているのかを真偽判定しています。
         if ($board->delete()) {
             $boards = Board::all();
+            $searchname = null;
 
             // ↓掲示板一覧画面
-            return view("board.index", compact("boards"));
+            return view("board.index", compact("boards", "searchname"));
         } else {
             $users = User::all();
             $board = Board::findOrFail($id);
@@ -256,7 +260,36 @@ class BoardController extends Controller
         
     }
 
-    public function search(UserRequest $request) {
-        
+    public function search(BoardRequest $request) {
+        // ↓リンクエラーが起きていないのかを真偽判定しています。
+        if (!view()->exists('board.index')) {
+            // ↓エラー画面
+            return redirect()->route('boards.error')->with('value', "1");
+        }
+
+        $searchname = $request->input("searchname");
+
+        try {
+            // ↓検索値が入力されているのかを真偽判定しています。
+            if (filled($searchname)) {
+                $query = board::orderBy("id");
+
+                // ↓掲示板名を掲示板テーブルのtitlenameから検索しています。
+                $query->where('titlename', 'LIKE', '%' . $searchname . '%');
+
+                $boards = $query->get();
+
+                // ↓掲示板一覧画面
+                return view("board.index", compact("boards", "searchname"));
+            } else {
+                $boards = Board::all();
+
+                // ↓掲示板一覧画面
+                return view("board.index", compact("boards", "searchname"));
+            }
+        } catch (Exception $e) {
+            // ↓エラー画面
+            return redirect()->route("boards.error")->with('value', "2");
+        }
     }
 }
