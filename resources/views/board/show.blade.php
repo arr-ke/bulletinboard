@@ -126,7 +126,7 @@
 
                 <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
                 @if ($boardread->id == $boardreadimg->boardread_id)
-                    <img src="{{ asset($boardreadimg->image_name) }}" height="150" width="200" class="img1">
+                    <img src="{{ asset($boardreadimg->image_name) }}" height="100" width="150" class="img1">
                 @endif
                 
                 <!-- ↓countが5または、10掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
@@ -140,11 +140,6 @@
             
     </a>
     @endforeach
-
-    <!-- ↓countが0をこえているかつcountが5と10以外なのかを真偽判定しています。 -->
-    @if ($count > 0 && $count != 5 && $count != 10)
-        </h3>
-    @endif
 </div>
 
 <br>
@@ -164,6 +159,5 @@
     <!-- ↓掲示板作成画面 -->
     <a href="{{ route('boardreads.create', $board->id) }}">コメント書き込み</a>
 </h3>
-
 
 @endsection

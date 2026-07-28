@@ -31,9 +31,10 @@ class UserController extends Controller
         try {
             $boards = Board::all();
             $searchname = null;
+            $count = 0;
 
             // ↓未ログイン掲示板一覧画面
-            return view("user.index", compact("boards", "searchname"));
+            return view("user.index", compact("boards", "searchname", "count"));
         // ↓原因不明エラー起きた時
         } catch (Exception $e) {
             // ↓エラー画面
@@ -173,9 +174,11 @@ class UserController extends Controller
             $user->save();
 
             $boards = Board::all();
+            $searchname = null;
+            $count = 0;
 
             // ↓掲示板一覧画面
-            return view("board.index", compact("boards"));
+            return view("board.index", compact("boards", "searchname", "count"));
         } else {
             $user = User::findOrFail($id);
 
@@ -223,9 +226,12 @@ class UserController extends Controller
             
             // ↓ログインしているのかを真偽判定しています。
             if (Auth::attempt($login)) {
+                $boards = Board::all();
+                $searchname = NULL;
+                $count = 0;
 
                 // ↓掲示板一覧画面
-                return redirect()->route("boards.index");
+                return view("board.index", compact("boards", "searchname", "count"));
             }
             // ↓ログイン画面
             return redirect()->route("users.logininput")->with('loginmessage', "ログインに失敗しました");
@@ -259,13 +265,20 @@ class UserController extends Controller
 
                 $boards = $query->get();
 
-                // ↓未ログイン掲示板一覧画面
-                return view("user.index", compact("boards", "searchname"));
-            } else {
-                $boards = Board::all();
+                $count = 0;
+
+                foreach ($boards as $board) {
+                    $count++;
+                }
 
                 // ↓未ログイン掲示板一覧画面
-                return view("user.index", compact("boards", "searchname"));
+                return view("user.index", compact("boards", "searchname", "count"));
+            } else {
+                $boards = Board::all();
+                $count = 0;
+
+                // ↓未ログイン掲示板一覧画面
+                return view("user.index", compact("boards", "searchname", "count"));
             }
         } catch (Exception $e) {
             // ↓エラー画面

@@ -52,36 +52,16 @@
 <form action="{{ route('users.search') }}" class="form1" method="post">
     @csrf
 
-    <input type="text" name="searchname" value="{{ $searchname }}" class="text1">
+    <input type="text" name="searchname" value="{{ $searchname }}" class="text1" required>
 
     <button type="submit" class="submit2">検索</button>
 </form>
 
 <br>
 <br>
-<br>
 
-@php
-    $count = 0;
-    $board_id = 0;
-@endphp
-
-<!-- ヒットした掲示板の件数をカウントしている処理 -->
-@foreach ($boards as $board)
-    @php
-        $board_id = $board->id;
-    @endphp
-@endforeach
-
-@foreach ($boards as $board)
-    @if ($searchname != NULL)
-        @php
-            $count++;
-        @endphp
-    @endif
-@endforeach
-
-@if ($count >= 1)
+<!-- 掲示板名がをNULLではないのかを真偽判定しています。 -->
+@if ($searchname != NULL)
     <h3>ヒット数は{{ $count }}件です。</h3>
 @endif
 

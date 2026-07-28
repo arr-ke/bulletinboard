@@ -99,8 +99,6 @@
                 $count++;
             @endphp
 
-
-
             <!-- ↓countが1または、6と掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
             @if ($count == 1 || $count == 6)
                 <h3>
@@ -108,36 +106,33 @@
 
             <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
 
-                <h3>画像{{ $count }}</h3>
-                <img src="{{ asset($boardreadimg->image_name) }}" height="70" width="120" class="img1">
-                    
+                画像{{ $count }}
                 <br>
+
+                
+                    <img src="{{ asset($boardreadimg->image_name) }}" height="100" width="150" class="img1">
                 
 
-                <select name="imgselect[{{ $boardreadimg->id }}]">
-                    <option value="0">画像を削除しない</option>
-                    <option value="1">画像を削除する</option>
-                </select>
+                <br>
 
-            
-            
-            <!-- ↓countが5または、10掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
-            @if ($count == 5 || $count == 10)
                 
+                    <select name="imgselect[{{ $boardreadimg->id }}]">
+                        <option value="0">画像を削除しない</option>
+                        <option value="1">画像を削除する</option>
+                    </select>
+                <br>
+
+            <!-- ↓countが掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
+            @if ($count == 5)
                 
                 </h3>
-                <br>
-            @else
                 
-                <br>
+                <h3>
+            @elseif ($count == 10)
+                </h3>
             @endif
 
         @endforeach
-
-        <!-- ↓countが0をこえているかつcountが5と10以外なのかを真偽判定しています。 -->
-        @if ($count > 0 && $count != 5 && $count != 10)
-            </h3>
-        @endif
 
         <!-- ↓countが0なのかを真偽判定しています。 -->
         @if ($count == 0)

@@ -30,10 +30,11 @@ class BoardController extends Controller
 
         try {
             $boards = Board::all();
-            $searchname = null;
+            $searchname = NULL;
+            $count = 0;
 
             // ↓掲示板一覧画面
-            return view("board.index", compact("boards", "searchname"));
+            return view("board.index", compact("boards", "searchname", "count"));
         // ↓原因不明エラー起きた時
         } catch (Exception $e) {
             // ↓エラー画面
@@ -110,9 +111,10 @@ class BoardController extends Controller
 
             $boards = Board::all();
             $searchname = null;
+            $count = 0;
 
             // ↓掲示板一覧画面
-            return view("board.index", compact("boards", "searchname"));
+            return view("board.index", compact("boards", "searchname", "count"));
         } else {
             // ↓掲示板作成画面
             return redirect()->route("boards.create")
@@ -211,9 +213,10 @@ class BoardController extends Controller
         if ($board->delete()) {
             $boards = Board::all();
             $searchname = null;
+            $count = 0;
 
             // ↓掲示板一覧画面
-            return view("board.index", compact("boards", "searchname"));
+            return view("board.index", compact("boards", "searchname", "count"));
         } else {
             $users = User::all();
             $board = Board::findOrFail($id);
@@ -279,13 +282,20 @@ class BoardController extends Controller
 
                 $boards = $query->get();
 
-                // ↓掲示板一覧画面
-                return view("board.index", compact("boards", "searchname"));
-            } else {
-                $boards = Board::all();
+                $count = 0;
+
+                foreach ($boards as $board) {
+                    $count++;
+                }
 
                 // ↓掲示板一覧画面
-                return view("board.index", compact("boards", "searchname"));
+                return view("board.index", compact("boards", "searchname", "count"));
+            } else {
+                $boards = Board::all();
+                $count = 0;
+
+                // ↓掲示板一覧画面
+                return view("board.index", compact("boards", "searchname", "count"));
             }
         } catch (Exception $e) {
             // ↓エラー画面
