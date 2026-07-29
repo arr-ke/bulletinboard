@@ -64,8 +64,10 @@
     </nav>
 </header>
 
-<!-- ↓掲示板コメント編集処理 -->
-<form action="{{ route('boardreads.update', $boardread->id) }}" enctype="multipart/form-data" class="form1" method="post">
+<!-- ↓ログイン中のuseridとboardsテーブルのuser_idが一致しているのかを真偽判定しています。 -->
+@if (Auth::user()->id === $boardread->user_id)
+    <!-- ↓掲示板コメント編集処理 -->
+    <form action="{{ route('boardreads.update', $boardread->id) }}" enctype="multipart/form-data" class="form1" method="post">
     @csrf
 
     @method('PATCH')
@@ -91,48 +93,32 @@
         @php
             $count = 0;
         @endphp
-
-
+        
+        <h3>
         <!-- ↓boardreadimgsテーブルを呼び出しています。 -->
         @foreach ($boardreadimgs as $boardreadimg)
             @php
                 $count++;
             @endphp
 
-            <!-- ↓countが1または、6と掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
-            @if ($count == 1 || $count == 6)
-                <h3>
-            @endif
+            画像{{ $count }}
 
-            <!-- ↓掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを -->
+            <br>
 
-                画像{{ $count }}
-                <br>
+            <img src="{{ asset($boardreadimg->image_name) }}" height="100" width="150" class="img1">
+            
+            <br>
 
-                
-                    <img src="{{ asset($boardreadimg->image_name) }}" height="100" width="150" class="img1">
-                
-
-                <br>
-
-                
-                    <select name="imgselect[{{ $boardreadimg->id }}]">
-                        <option value="0">画像を削除しない</option>
-                        <option value="1">画像を削除する</option>
-                    </select>
-                <br>
-
-            <!-- ↓countが掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
-            @if ($count == 5)
-                
-                </h3>
-                
-                <h3>
-            @elseif ($count == 10)
-                </h3>
-            @endif
+            <select name="imgselect[{{ $boardreadimg->id }}]">
+                <option value="0">画像を削除しない</option>
+                <option value="1">画像を削除する</option>
+            </select>
+            
+            <br>
 
         @endforeach
+        
+        </h3>
 
         <!-- ↓countが0なのかを真偽判定しています。 -->
         @if ($count == 0)
@@ -145,30 +131,69 @@
     <input type="file" name="img[]" multiple>
 
     <input type="hidden" name="boardid" value="{{ $boardread->board_id }}">
-    
+
     <input type="hidden" name="boardreadid" value="{{ $boardread->id }}">
 
     <br>
     <br>
 
+
     <button type="submit" class="submit3">更新</button>
-</form>
 
-<hr>
 
+    </form>
+
+@else
+    <h3>ユーザー名</h3>
+    <h3>{{ $boardread->user_name }}</h3>
+
+    <h3>掲示板コメント</h3>
+    <h3>{{ $boardread->comment }}</h3>
+
+    <h3>掲示板コメント画像</h3>
+
+    <div class="box2">
+        <!-- ↓boardreadsテーブルを呼び出しています。 -->
+        @php
+            $count = 0;
+        @endphp
+        
+        <h3>
+        <!-- ↓boardreadimgsテーブルを呼び出しています。 -->
+        @foreach ($boardreadimgs as $boardreadimg)
+            @php
+                $count++;
+            @endphp
+
+            画像{{ $count }}
+
+            <br>
+
+            <img src="{{ asset($boardreadimg->image_name) }}" height="100" width="150" class="img1">
+            
+            <br>
+            
+            <br>
+
+        @endforeach
+        </h3>
+
+        <!-- ↓countが0なのかを真偽判定しています。 -->
+        @if ($count == 0)
+            <h3 class="img2">コメント画像はありません</h3>
+        @endif
+    </div>
+
+@endif
 <br>
 
+<!-- ↓掲示板コメント削除処理 -->
+<form action="{{ route('boardreads.destroy', $boardread->id) }}" class="form1" onsubmit="return confirm('削除しますか')" method="post">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="submit3">削除</button>
+</form>
 
-
-<!-- ↓ログイン中のuseridとboardsテーブルのuser_idが一致しているのかを真偽判定しています。 -->
-@if (Auth::user()->id === $boardread->user_id)
-    <!-- ↓掲示板コメント削除処理 -->
-    <form action="{{ route('boardreads.destroy', $boardread->id) }}" class="form1" onsubmit="return confirm('削除しますか')" method="post">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="submit3">削除</button>
-    </form>
-@endif
 
 
 @endsection

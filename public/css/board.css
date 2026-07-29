@@ -204,3 +204,9 @@ h3 {
     /* 中央揃え */
     text-align: center;
 }
+
+/* img2のCSS */
+.img2 {
+    /* 外側上サイズ */
+    margin-top: 300px;
+}

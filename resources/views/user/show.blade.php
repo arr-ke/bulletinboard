@@ -84,6 +84,10 @@
 <br>
 <br>
 
+@php
+    $count1 = 0;
+@endphp
+
 <div class="box2">
     <!-- ↓boardreadsテーブルを呼び出しています。 -->
     @foreach ($boardreads as $boardread)
@@ -99,6 +103,7 @@
 
         @php
             $count = 0;
+            $count1++;
         @endphp
 
         <!-- ↓boardreadimgsテーブルを呼び出しています。 -->
@@ -121,13 +126,17 @@
             <!-- ↓countが5または、10と掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
             @if ($count == 5 || $count == 10 && $boardread->id === $boardreadimg->boardread_id)
                 </h3>
-                
             @endif
         @endforeach
         
         <hr>
         
     @endforeach
+
+    <!-- ↓count1が0なのかを真偽判定しています。 -->
+    @if ($count1 == 0)
+        <h3 class="img2">コメントはありません</h3>
+    @endif
 </div>
 
 
