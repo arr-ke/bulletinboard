@@ -178,10 +178,10 @@
                     </h3>
                 @endif
             @endforeach
+
+            <hr>
             
         @endif
-
-        <hr>
 
     @endforeach
 
