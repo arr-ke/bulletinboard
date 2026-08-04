@@ -60,17 +60,12 @@ class BoardreadController extends Controller
 
         $boardread = new Boardread();
         $boardread->user_id = $user_id;
-
         $boardread->board_id = $board_id;
-
-
         $boardread->user_name = $user_name;
-
         $boardread->comment = $comment;
 
         $boardread->created_at = Carbon::now('Asia/Tokyo');
         $boardread->updated_at = Carbon::now('Asia/Tokyo');
-
 
         // ↓データベースに掲示板を登録できたのかを審議判定しています。
         if ($boardread->save()) {
@@ -79,14 +74,11 @@ class BoardreadController extends Controller
 
             // ↓画像があるのかを真偽判定しています。
             if ($imgs) {
-                
                 // ↓画像の登録処理
                 foreach ($imgs as $img) {
-                    
                     // ↓画像があるのかを真偽判定しています。
                     if ($img->isValid()) {
 
-                        
                         $boardreadimg = new Boardreadimg();
 
                         $boardreadimg->board_id = Board::latest()->value("id");
@@ -112,7 +104,6 @@ class BoardreadController extends Controller
             $boardreads = Boardread::where("board_id", $board->id)->get();
 
             $boardreadimgs = Boardreadimg::all();
-
 
             // ↓掲示板閲覧画面
             return view("board.show", compact("board", "users", "boardimgs", "boardreads", "boardreadimgs"));
@@ -201,8 +192,6 @@ class BoardreadController extends Controller
                     Storage::disk('public')->delete($deletepath);
                 
                     $boardreadimg->delete();
-                    
-                    
                 }
             }
 
@@ -225,12 +214,11 @@ class BoardreadController extends Controller
                 $count++;
             }
 
-
             // ↓countが10なのかを真偽判定しています。
             if ($count >= 11) {
                 // ↓掲示板コメント編集画面
                 return redirect()->route("boardreads.edit", $boardread_id)
-                ->with('boardupdeleeerrormessage', "掲示板コメント画像が10枚以上あります。\n画像の追加登録は一度画像削除してください。")
+                ->with('boardupdeleteerrormessage', "掲示板コメント画像が10枚以上あります。\n画像の追加登録は一度画像削除してください。")
                 ->withInput();
             }
 

@@ -112,7 +112,6 @@
                 $count++;
             @endphp
 
-
             <!-- ↓countが1または、6と掲示板コメントidと掲示板コメント画像の掲示板コメントidが一致しているのかを真偽判定しています。 -->
             @if ($count == 1 || $count == 6 && $boardread->id === $boardreadimg->boardread_id)
                 <h3>

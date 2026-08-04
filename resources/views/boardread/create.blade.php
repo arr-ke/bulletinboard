@@ -1,4 +1,4 @@
-<!-- 掲示板作成画面 -->
+<!-- 掲示板コメント作成画面 -->
 
 @extends('layout.boardreadapp')
 

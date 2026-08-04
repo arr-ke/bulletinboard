@@ -40,7 +40,6 @@ class UserController extends Controller
             // ↓エラー画面
             return redirect()->route("users.error")->with('value', "2");
         }
-        
     }
 
     /**
@@ -61,8 +60,6 @@ class UserController extends Controller
             // ↓エラー画面
             return redirect()->route("users.error")->with('value', "2");
         }
-
-        
     }
 
     /**
@@ -135,7 +132,6 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-
         // ↓リンクエラーが起きていないのかを真偽判定しています。
         if (!view()->exists('user.edit')) {
             // ↓エラー画面
@@ -168,7 +164,6 @@ class UserController extends Controller
             $user = User::findOrFail($id);
 
             $user->password = $pw;
-            
             $user->updated_at = Carbon::now('Asia/Tokyo');
 
             $user->save();
@@ -183,7 +178,7 @@ class UserController extends Controller
             $user = User::findOrFail($id);
 
             // ↓ユーザー編集画面
-            return view("users.edit", compact("user"))->withInput();
+            return redirect()->back()->with('userupdateerrormessage', "PWとPW確認の値が一致させてください")->withInput();
         }
     }
 
@@ -204,7 +199,6 @@ class UserController extends Controller
         }
 
         try {
-            
             // ↓ログイン画面
             return view("user.logininput");
         } catch (Exception $e) {

@@ -81,19 +81,15 @@ class BoardController extends Controller
 
         $board->created_at = Carbon::now('Asia/Tokyo');
 
-
         // ↓データベースに掲示板を登録できたのかを審議判定しています。
         if ($board->save()) {
-            
             $imgs = $request->file("img");
             if ($imgs) {
                 
                 // ↓画像の登録処理
                 foreach ($imgs as $img) {
-                    
                     // ↓画像があるのかを真偽判定しています。
                     if ($img->isValid()) {
-
                         
                         $boardimg = new Boardimg();
 
@@ -121,7 +117,6 @@ class BoardController extends Controller
             ->with('boardcreatemessage', "掲示板の作成に失敗しました")
             ->withInput();
         }
-        
     }
 
     /**
@@ -182,8 +177,6 @@ class BoardController extends Controller
 
         $boardreadimgs = Boardreadimg::where("board_id", $board->id)->get();
 
-        
-
         // ↓掲示板コメントに保存されている画像データを呼び出しています。
         foreach ($boardreadimgs as $boardreadimg) {
 
@@ -195,19 +188,16 @@ class BoardController extends Controller
 
         // ↓掲示板コメントに保存されているデータを呼び出しています。
         foreach ($boardreads as $boardread) {
-        
             $boardread->delete();
         }
         
         // ↓掲示板に保存されている画像データを呼び出しています。
         foreach ($boardimgs as $boardimg) {
-
             $deletepath = str_replace('storage', '', $boardimg->image_name);
             Storage::disk('public')->delete($deletepath);
         
             $boardimg->delete();
         }
-
 
         // ↓掲示板が削除できているのかを真偽判定しています。
         if ($board->delete()) {
@@ -229,7 +219,6 @@ class BoardController extends Controller
             // ↓掲示板閲覧画面
             return view("board.show", compact("users", "board", "boardimgs", "boardreads", "boardreadimgs", "boarddeletemessage"));
         }
-
     }
 
     public function error(BoardRequest $request) {
@@ -260,7 +249,6 @@ class BoardController extends Controller
             // ↓エラー画面
             return redirect()->route("boards.error")->with('value', "2");
         }
-        
     }
 
     public function search(BoardRequest $request) {

@@ -122,7 +122,7 @@
 
         <!-- ↓countが0なのかを真偽判定しています。 -->
         @if ($count == 0)
-            <h3>コメント画像はありません</h3>
+            <h3 class="img2">コメント画像はありません</h3>
         @endif
     </div>
 
@@ -172,7 +172,6 @@
             <img src="{{ asset($boardreadimg->image_name) }}" height="100" width="150" class="img1">
             
             <br>
-            
             <br>
 
         @endforeach
@@ -193,7 +192,5 @@
     @method('DELETE')
     <button type="submit" class="submit3">削除</button>
 </form>
-
-
 
 @endsection
